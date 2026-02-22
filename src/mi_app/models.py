@@ -31,3 +31,6 @@ class CaidaLibre(EnsayoFisico):
 class MovimientoRectilineoUniforme(EnsayoFisico):
     """Modelo especifico para simulaciones y calculos de M.R.U"""
     velocidad: float = 0.0
+    distancia: float = 0.0
+    tiempo: float = 0.0
+    
