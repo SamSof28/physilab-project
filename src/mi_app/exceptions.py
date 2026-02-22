@@ -20,7 +20,12 @@ class DatoNegativoError(FisicaLabError):
         self.numero: float = numero
         super().__init__(f"El número {numero} ingresado es invalido")
 
-class ExperimentoNoExistente(BaseDatosError):
+class DatosInsuficientesError(FisicaLabError):
+    def __init__(self, cantidad_faltante: int = 1) -> None:
+        self.cantidad_faltante: int = cantidad_faltante
+        super().__init__(f"Faltan {cantidad_faltante} dato(s) para realizar el cálculo")
+
+class ExperimentoNoExistenteError(BaseDatosError):
     def __init__(self, id: int) -> None:
         self.id = id
         super().__init__(f"El id {id} del experimento no es valido, tiene que ser positivo")
