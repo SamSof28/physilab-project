@@ -23,9 +23,14 @@ class DatoNegativoError(FisicaLabError):
 class ExperimentoNoExistente(BaseDatosError):
     def __init__(self, id: int) -> None:
         self.id = id
-        super().__init__(f"El id {id} del experimento no existe")
+        super().__init__(f"El id {id} del experimento no es valido, tiene que ser positivo")
 
 class NombreExperimentoIncorrecto(BaseDatosError):
     def __init__(self, nombre: str) -> None:
         self.nombre: str = nombre
         super().__init__(f"El nombre {nombre} no es un experimento valido")
+
+class IdExistente(BaseDatosError):
+    def __init__(self, id: int):
+        self.id: int = id
+        super().__init__(f"El id {id} ingresado ya se encuentra usado en la base de datos")
