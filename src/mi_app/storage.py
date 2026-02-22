@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from typing import List, Protocol
-from .models import EnsayoFisico, TiroParabolico, CaidaLibre, MovimientoRectilineoUniforme
+from .models import TiroParabolico, CaidaLibre, MovimientoRectilineoUniforme
 from .exceptions import NombreExperimentoIncorrecto
 
 class Storage(Protocol):
