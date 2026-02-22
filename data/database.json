@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "nombre": "Prueba Tierra",
+    "tipo": "Tiro Parabolico",
+    "fecha": "2026-02-20 10:00",
+    "velocidad_inicial": 20.0,
+    "angulo": 45.0,
+    "gravedad": 9.81,
+    "alcance_maximo": 40.77,
+    "altura_maxima": 10.19,
+    "tiempo_vuelo": 2.88
+  },
+  {
+    "id": 2,
+    "nombre": "Prueba Marte",
+    "tipo": "Tiro Parabolico",
+    "fecha": "2026-02-20 10:05",
+    "velocidad_inicial": 10.0,
+    "angulo": 30.0,
+    "gravedad": 3.71,
+    "alcance_maximo": 23.33,
+    "altura_maxima": 3.37,
+    "tiempo_vuelo": 2.70
+  }
+]
