@@ -2,7 +2,8 @@ from .exceptions import (
     ExperimentoNoExistenteError,
     DatoNegativoError,
     IdExistente,
-    DatosInsuficientesError
+    DatosInsuficientesError,
+    DivisionPorCeroFisicaError
 )
 from .models import MovimientoRectilineoUniforme
 
@@ -44,12 +45,12 @@ class LaboratorioService:
             mru.distancia = distancia_calculada
         elif mru.tiempo is None:
             if mru.velocidad == 0:
-                raise ZeroDivisionError
+                raise DivisionPorCeroFisicaError("tiempo")
             tiempo_calculado = (mru.distancia / mru.velocidad)
             mru.tiempo = tiempo_calculado
         elif mru.velocidad is None:
             if mru.tiempo == 0:
-                raise ZeroDivisionError
+                raise DivisionPorCeroFisicaError("velocidad")
             velocidad_calculada = (mru.distancia / mru.tiempo)
             mru.velocidad = velocidad_calculada
 
