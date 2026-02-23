@@ -2,7 +2,13 @@ import pytest
 from unittest.mock import MagicMock
 from src.mi_app.services import LaboratorioService
 from src.mi_app.models import MovimientoRectilineoUniforme
-from src.mi_app.exceptions import *
+from src.mi_app.exceptions import (
+    DatoNegativoError,
+    DatosInsuficientesError,
+    DivisionPorCeroFisicaError,
+    IdExistente,
+    ExperimentoNoExistenteError
+)
 
 # --- FIXTURES ---
 @pytest.fixture
