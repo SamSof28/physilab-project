@@ -1,7 +1,7 @@
 [project]
 name = "physilab-project"
 version = "0.1.0"
-description = "Add your description here"
+description = "Cuaderno de laboratorio digital para simular y registrar ensayos de cinemática (MRU, Tiro Parabólico) con cálculos automáticos"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
