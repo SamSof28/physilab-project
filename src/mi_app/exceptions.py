@@ -20,6 +20,12 @@ class DatoNegativoError(FisicaLabError):
         self.numero: float = numero
         super().__init__(f"El número {numero} ingresado es invalido")
 
+class DivisionPorCeroFisicaError(AppError):
+    """Excepción lanzada cuando una operación física resulta en división por cero."""
+    def __init__(self, magnitud: str):
+        self.magnitud = magnitud
+        super().__init__(f"Error Matemático: No se puede calcular {magnitud} con un divisor de cero.")
+
 class DatosInsuficientesError(FisicaLabError):
     def __init__(self, cantidad_faltante: int = 1) -> None:
         self.cantidad_faltante: int = cantidad_faltante
@@ -28,7 +34,7 @@ class DatosInsuficientesError(FisicaLabError):
 class ExperimentoNoExistenteError(BaseDatosError):
     def __init__(self, id: int) -> None:
         self.id = id
-        super().__init__(f"El id {id} del experimento no es valido, tiene que ser positivo")
+        super().__init__(f"El id {id} del experimento no es valido")
 
 class NombreExperimentoIncorrecto(BaseDatosError):
     def __init__(self, nombre: str) -> None:
