@@ -57,7 +57,7 @@ def mru(
         service.calcular_mru(ensayo)
 
         console.print("[bold green]✔[/bold green] Ensayo registrado.")
-        console.print(f"Resultados: V={ensayo.velocidad}, T={ensayo.tiempo}, D={ensayo.distancia}")
+        console.print(f"Resultados: V={ensayo.velocidad} m/s, T={ensayo.tiempo} s, D={ensayo.distancia} m")
 
     except AppError as e:
         console.print(f"[bold red]Error:[/bold red] {e}")
@@ -90,7 +90,9 @@ def listar() -> None:
 
 
 @app.command()
-def eliminar(id: int) -> None:
+def eliminar(
+    id: int = typer.Option(..., help="ID del experimento a eliminar")
+    ) -> None:
     """Eliminar un ensayo por su identificador.
 
     Args:
