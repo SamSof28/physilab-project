@@ -1,13 +1,41 @@
-site_name: Physic Laboratory CLI
-site_description: Physics laboratory that solves and manages your physics experiments or tests
-site_author: Samuel Romaña Acevedo
-
+site_name: Physic Laboratory 
 theme:
   name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate # modo oscuro
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search:
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["src"]
 
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - API Reference: api.md
+  - Inicio: index.md
+  - Guía de usuario: guia_usuario.md
+  - Referencia técnica:
+    - API de python: referencia/api.md
 
-
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
