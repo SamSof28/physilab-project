@@ -1,0 +1,13 @@
+site_name: Physic Laboratory CLI
+site_description: Physics laboratory that solves and manages your physics experiments or tests
+site_author: Samuel Romaña Acevedo
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - API Reference: api.md
+
+
