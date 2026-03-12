@@ -5,8 +5,8 @@
     "tipo": "Movimiento Rectilineo Uniforme",
     "fecha": "2026-02-22 10:00",
     "velocidad": 10.5,
-    "tiempo": 5.0,
-    "distancia": 52.5
+    "distancia": 52.5,
+    "tiempo": 5.0
   },
   {
     "id": 2,
@@ -14,7 +14,7 @@
     "tipo": "Movimiento Rectilineo Uniforme",
     "fecha": "2026-02-22 10:05",
     "velocidad": 300.0,
-    "tiempo": 2.0,
-    "distancia": 600.0
+    "distancia": 600.0,
+    "tiempo": 2.0
   }
 ]
