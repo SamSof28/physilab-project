@@ -1,56 +1,47 @@
-# 🔬 PhysiLab: Laboratorio de Física Virtual
+# PhysiLab
 
-Bienvenido a la documentación oficial de **PhysiLab**, una plataforma educativa y profesional diseñada para la simulación, cálculo y gestión de ensayos físicos. 
+Cuaderno de laboratorio digital para registrar ensayos de cinematica desde una CLI en Python.
 
-Este proyecto aplica **Ingeniería de Software** de alto nivel para resolver problemas de cinemática y dinámica, utilizando principios de **Clean Code**, **SOLID** y **Arquitectura por Capas**.
+## Proposito del proyecto
 
----
+PhysiLab busca resolver un problema concreto: convertir ejercicios y ensayos de movimiento en registros reproducibles, trazables y faciles de consultar.
 
-## 🚀 Características del Laboratorio
+Con la aplicacion puedes:
 
-- 🛰️ **Cálculos Cinemáticos:** Resolución inteligente de MRU, MRUA y Tiro Parabólico.
-- 📐 **Motor Matemático:** Implementación de despejes automáticos y manejo de vectores con **NumPy**.
-- 💻 **CLI Profesional:** Interfaz de línea de comandos robusta basada en **Typer** y **Rich**.
-- 🧪 **Calidad Garantizada:** Cobertura de pruebas unitarias al 100% con `pytest` y aislamiento mediante **Mocks**.
-- 🏗️ **Diseño Robusto:** Arquitectura `src layout` con separación estricta de responsabilidades.
-- 🛡️ **Seguridad Física:** Validaciones de dominio para prevenir estados físicamente imposibles (tiempos negativos, divisiones por cero).
+- crear ensayos de MRU y MRUA;
+- delegar al servicio el calculo de variables faltantes;
+- persistir resultados en un archivo JSON local;
+- listar y eliminar ensayos desde comandos simples.
 
----
+## Caracteristicas principales
 
-## 🧠 Pilares de Ingeniería
+- CLI construida con Typer para una experiencia de uso clara.
+- Salida tabular con Rich para inspeccionar resultados rapidamente.
+- Modelos tipados con dataclasses y validaciones de dominio.
+- Capa de servicios con logica fisica separada de la persistencia.
+- Persistencia JSON desacoplada mediante protocolo de almacenamiento.
+- Documentacion automatica de API con mkdocstrings.
 
-!!! info "Conceptos Avanzados Aplicados"
+## Arquitectura general
 
-    - **Inyección de Dependencias:** Desacoplamiento total entre la lógica física y el almacenamiento.
-    - **Encapsulamiento Post-Init:** Modelos de datos (`dataclasses`) con integridad física garantizada.
-    - **Manejo de Excepciones de Dominio:** Jerarquía de errores clara para fallos matemáticos y de negocio.
-    - **Persistencia Atómica:** Gestión segura de datos en formato JSON (preparado para SQL/Supabase).
+La arquitectura se divide en tres capas para mantener bajo acoplamiento:
 
----
+- Presentacion: comandos CLI y renderizado de resultados.
+- Dominio y aplicacion: modelos + servicios con reglas de negocio.
+- Infraestructura: almacenamiento JSON para carga/guardado de ensayos.
 
-## 🏗️ Arquitectura del Sistema
+```mermaid
+flowchart LR
+    CLI[CLI Typer]
+    SVC[LaboratoryService]
+    MOD[Modelos MRU y MRUA]
+    STO[JsonStorage]
+    DB[(data/database.json)]
 
-PhysiLab separa la "Inteligencia Física" del "Almacenamiento de Datos", permitiendo que el laboratorio crezca sin romper lo existente.
-
-``` mermaid
-graph TD
-    subgraph Interfaz
-        CLI[CLI - Typer/Rich]
-    end
-
-    subgraph Nucleo_Fisico
-        Service[LaboratorioService]
-        Model[Modelos: MRU, MRUA, Parabólico]
-    end
-
-    subgraph Persistencia
-        Storage[JSONStorage]
-        DB[(database.json)]
-    end
-
-    CLI --> Service
-    Service --> Model
-    Service --> Storage
-    Storage --> DB
-
+    CLI --> SVC
+    SVC --> MOD
+    SVC --> STO
+    STO --> DB
 ```
+
+Para comenzar con instalacion y primer uso, revisa la seccion **Primeros pasos**.
