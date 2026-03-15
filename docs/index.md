@@ -1,47 +1,93 @@
-# PhysiLab
+# 🔬 PhysiLab: CLI de Laboratorio de Cinemática
 
-Cuaderno de laboratorio digital para registrar ensayos de cinematica desde una CLI en Python.
+Bienvenido a la documentación oficial de **PhysiLab**, un cuaderno de laboratorio digital diseñado para gestionar, calcular y persistir ensayos de movimiento rectilíneo (MRU y MRUA) mediante una interfaz de línea de comandos moderna en Python.
 
-## Proposito del proyecto
+Este proyecto implementa estándares profesionales como **Clean Code**, **Validación de Dominio** y **Arquitectura por Capas**.
 
-PhysiLab busca resolver un problema concreto: convertir ejercicios y ensayos de movimiento en registros reproducibles, trazables y faciles de consultar.
+---
 
-Con la aplicacion puedes:
+## ✨ Características Principales
 
-- crear ensayos de MRU y MRUA;
-- delegar al servicio el calculo de variables faltantes;
-- persistir resultados en un archivo JSON local;
-- listar y eliminar ensayos desde comandos simples.
+- **Solucionador de Física Automático**: Calcula variables faltantes (distancia, tiempo, velocidad, aceleración) de forma automática.
+- **Integridad de Datos**: Basado en `dataclasses` de Python y validación `__post_init__` para evitar datos físicamente imposibles (ej. tiempos negativos).
+- **Persistencia Robusta**: Serialización automática en formato JSON de todos tus ensayos de laboratorio.
+- **Interfaz CLI Intuitiva**: Gestión de ensayos simple y rápida desde la terminal.
+- **Altos Estándares de Calidad**: Código verificado con **Radon** (Complejidad Ciclomática A) y **Ruff**.
 
-## Caracteristicas principales
+---
 
-- CLI construida con Typer para una experiencia de uso clara.
-- Salida tabular con Rich para inspeccionar resultados rapidamente.
-- Modelos tipados con dataclasses y validaciones de dominio.
-- Capa de servicios con logica fisica separada de la persistencia.
-- Persistencia JSON desacoplada mediante protocolo de almacenamiento.
-- Documentacion automatica de API con mkdocstrings.
+## 📦 Arquitectura del Sistema
 
-## Arquitectura general
-
-La arquitectura se divide en tres capas para mantener bajo acoplamiento:
-
-- Presentacion: comandos CLI y renderizado de resultados.
-- Dominio y aplicacion: modelos + servicios con reglas de negocio.
-- Infraestructura: almacenamiento JSON para carga/guardado de ensayos.
+PhysiLab sigue una arquitectura modular para garantizar que el código sea fácil de mantener y escalar.
 
 ```mermaid
 flowchart LR
-    CLI[CLI Typer]
-    SVC[LaboratoryService]
-    MOD[Modelos MRU y MRUA]
-    STO[JsonStorage]
-    DB[(data/database.json)]
+    CLI[Capa CLI] --> Service[Servicio de Laboratorio]
+    Service --> Models[Modelos Físicos]
+    Service --> Storage[Almacenamiento JSON]
+    Models --> Validation[Validación Post-Init]
+    Storage --> JSON[(trials.json)]
 
-    CLI --> SVC
-    SVC --> MOD
-    SVC --> STO
-    STO --> DB
 ```
 
-Para comenzar con instalacion y primer uso, revisa la seccion **Primeros pasos**.
+---
+
+## 🧠 Principios de Ingeniería Aplicados
+
+!!! info "Clean Code y Diseño"
+    - Responsabilidad Única: Cada clase y módulo tiene una sola razón para cambiar.
+    - Encapsulamiento: Los modelos protegen su propio estado mediante validaciones internas.
+    - Inversión de Dependencias: Los servicios dependen de abstracciones para el almacenamiento.
+    - Tipado Estático: Uso intensivo de Type Hints para un desarrollo libre de errores.
+
+---
+
+## 📁 Estructura del Proyecto
+
+```text
+physilab-project/
+├── data/               # Archivos JSON persistentes
+├── docs/               # Documentación técnica (MkDocs)
+├── src/mi_app/
+│   ├── models/         # Entidades físicas (MRU, MRUA)
+│   ├── services.py     # Lógica de negocio y cálculos
+│   ├── storage.py      # Capa de persistencia
+│   └── cli.py          # Capa de interfaz (CLI)
+└── tests/              # Pruebas automatizadas
+```
+
+## 🚀 Flujo General de Ejecución
+Este diagrama muestra cómo interactúan las capas cuando registras un nuevo ensayo:
+
+```mermaid
+sequenceDiagram
+    participant Usuario
+    participant CLI
+    participant Service
+    participant Model
+    participant Storage
+
+    Usuario->>CLI: Ejecuta comando (ej. mru)
+    CLI->>Model: Instancia con datos de entrada
+    Model->>Model: __post_init__() (Valida negativos)
+    CLI->>Service: calculate_mru(model)
+    Service->>Service: Resuelve variable faltante
+    Service->>Storage: save_experiment()
+    Storage-->>Usuario: Confirmación y resultado
+```
+
+---
+
+## 📚 Cómo navegar esta documentación
+
+| Sección | Contenido |
+| --- | --- |
+| Primeros pasos | Instalación con uv y configuración inicial. |
+| Guía de usuario | Ejemplos detallados de comandos y uso de la CLI. |
+| Arquitectura | Decisiones de diseño y principios de código limpio. |
+| Referencia | Documentación técnica generada automáticamente del código. |
+
+---
+
+!!! tip "Recomendación"
+    Si es tu primera vez usando el proyecto, te recomendamos empezar por la sección Primeros pasos.
