@@ -1,22 +1,40 @@
-site_name: Physic Laboratory 
+site_name: PhysiLab
+site_description: Cuaderno de laboratorio digital para ensayos de cinematica con CLI en Python.
+site_url: https://samsof28.github.io/physilab-project/
+repo_url: https://github.com/SamSof28/physilab-project
+repo_name: SamSof28/physilab-project
+
 theme:
   name: material
+  language: es
+  font:
+    text: Nunito Sans
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - content.tabs.link
   palette:
     - scheme: default
-      primary: indigo
-      accent: indigo
+      primary: teal
+      accent: amber
       toggle:
         icon: material/brightness-7
-        name: Switch to dark mode
-    - scheme: slate # modo oscuro
-      primary: indigo
-      accent: indigo
+        name: Cambiar a modo oscuro
+    - scheme: slate
+      primary: teal
+      accent: amber
       toggle:
         icon: material/brightness-4
-        name: Switch to light mode
+        name: Cambiar a modo claro
 
 plugins:
-  - search:
+  - search
   - mkdocstrings:
       handlers:
         python:
@@ -24,9 +42,15 @@ plugins:
 
 nav:
   - Inicio: index.md
-  - Guía de usuario: guia_usuario.md
-  - Referencia técnica:
-    - API de python: referencia/api.md
+  - Primeros pasos: getting-started.md
+  - Guía de usuario:
+    - Comandos CLI: user-guide/commands.md
+    - Persistencia: user-guide/persistence.md
+  - Arquitectura: architecture.md
+  - Referencia: reference.md
+
+extra_css:
+  - assets/stylesheets/extra.css
 
 markdown_extensions:
   - admonition
