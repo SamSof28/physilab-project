@@ -7,17 +7,30 @@ repo_name: SamSof28/physilab-project
 theme:
   name: material
   language: es
-  font:
-    text: Poppins
-    code: Fira Code
-  features:
-    - navigation.expand
-    - content.code.copy
-    - toc.integrate
   palette:
-    - scheme: default
-      primary: blue
-      accent: light blue
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo  
+      accent: cyan     
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs 
+    - navigation.sections
+    - toc.integrate 
+    - content.code.copy 
 
 plugins:
   - search
