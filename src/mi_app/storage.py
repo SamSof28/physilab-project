@@ -11,8 +11,8 @@ Las implementaciones deben trabajar con las clases:
 import json
 from pathlib import Path
 from typing import List, Protocol
-from .models import TiroParabolico, CaidaLibre, MovimientoRectilineoUniforme
-from .exceptions import NombreExperimentoIncorrecto
+from .models import UniformRectilinearMotion, UniformlyAcceleratedRectilinearMotion
+from .exceptions import InvalidExperimentNameError
 
 class Storage(Protocol):
     """Protocolo que define la interfaz de persistencia para los ensayos.
@@ -20,12 +20,12 @@ class Storage(Protocol):
     Implementaciones deben exponer los métodos `load()` y `save(...)`.
     """
 
-    def load(self) -> List[TiroParabolico | CaidaLibre | MovimientoRectilineoUniforme]: ...
+    def load(self) -> List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]: ...
 
-    def save(self, ensayos_fisicos: List[TiroParabolico | CaidaLibre | MovimientoRectilineoUniforme]) -> None: ...
+    def save(self, experiments: List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]) -> None: ...
 
 
-class JSONStorage:
+class JsonStorage:
     """Implementación de `Storage` que usa un archivo JSON para persistir ensayos.
 
     Attributes:
@@ -40,13 +40,13 @@ class JSONStorage:
         """
         self.filepath = filepath
 
-    def load(self) -> List[TiroParabolico | CaidaLibre | MovimientoRectilineoUniforme]:
+    def load(self) -> List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]:
         """Carga y deserializa los ensayos desde el archivo JSON.
 
         Si el archivo no existe, devuelve una lista vacía.
 
         Returns:
-            List[TiroParabolico | CaidaLibre | MovimientoRectilineoUniforme]:
+            List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]:
                 Lista de instancias deserializadas.
 
         Raises:
@@ -59,27 +59,26 @@ class JSONStorage:
         with open(self.filepath, "r") as f:
             data = json.load(f)
 
-        ensayos: List[TiroParabolico | CaidaLibre | MovimientoRectilineoUniforme] = []
+        experiments: List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion] = []
 
         for item in data:
-            tipo = item.get("tipo")
+            experiment_type = item.get("tipo")
 
-            if tipo == "Tiro Parabolico":
-                ensayos.append(TiroParabolico(**item))
-            elif tipo == "Caida Libre":
-                ensayos.append(CaidaLibre(**item))
-            elif tipo == "Movimiento Rectilineo Uniforme":
-                ensayos.append(MovimientoRectilineoUniforme(**item))
+            if experiment_type == "Movimiento Rectilineo Uniforme":
+                experiments.append(UniformRectilinearMotion(**item))
+            elif experiment_type == "Movimiento Rectilineo Uniformemente Acelerado": 
+                experiments.append(UniformlyAcceleratedRectilinearMotion(**item))
             else:
-                raise NombreExperimentoIncorrecto(tipo)
+                raise InvalidExperimentNameError(experiment_type)
 
-        return ensayos
+        return experiments
 
-    def save(self, ensayos_fisicos: List[TiroParabolico | CaidaLibre | MovimientoRectilineoUniforme]) -> None:
+    def save(self, experiments: List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]) -> None:
         """Serializa y guarda la lista de ensayos en el archivo JSON.
 
         Args:
-            ensayos_fisicos: Lista de instancias de ensayo a persistir.
+            experiments: Lista de instancias de ensayo a persistir.
         """
         with open(self.filepath, "w") as f:
-            json.dump([ensayo.__dict__ for ensayo in ensayos_fisicos], f, indent=2, ensure_ascii=False)
+            json.dump([experiment.__dict__ for experiment in experiments], f, indent=2, ensure_ascii=False)
+
