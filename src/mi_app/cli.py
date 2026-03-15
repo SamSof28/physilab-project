@@ -8,7 +8,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from .models import MovimientoRectilineoUniforme
+from .models.mru import UniformRectilinearMotion
 from .storage import JSONStorage
 from .services import LaboratorioService
 
@@ -45,7 +45,7 @@ def mru(
     """
 
     try:
-        ensayo = MovimientoRectilineoUniforme(
+        ensayo = UniformRectilinearMotion(
             id=id,
             nombre=nombre,
             tipo="Movimiento Rectilineo Uniforme",

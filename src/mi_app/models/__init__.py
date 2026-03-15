@@ -1,2 +1,4 @@
-from .mru import MovimientoRectilineoUniforme
-from .mrua import MovimientoRectilineoUniformeAcelerado
+from .mru import UniformRectilinearMotion
+from .mrua import UniformlyAcceleratedRectilinearMotion
+
+
