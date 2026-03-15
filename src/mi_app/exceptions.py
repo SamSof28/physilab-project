@@ -115,15 +115,3 @@ class DuplicateIdError(DatabaseError):
         self.duplicate_id: int = duplicate_id
         super().__init__(f"Identificador duplicado: el id {duplicate_id} ya existe en la base de datos.")
 
-
-# Backward-compatible aliases for existing Spanish API usage.
-FisicaLabError = PhysicsLabError
-BaseDatosError = DatabaseError
-AnguloInvalidoError = InvalidAngleError
-DatoNegativoError = NegativeValueError
-DivisionPorCeroFisicaError = PhysicsDivisionByZeroError
-DiscriminanteMenorIgualCeroFisicaError = NegativeDiscriminantError
-DatosInsuficientesError = InsufficientDataError
-ExperimentoNoExistenteError = ExperimentNotFoundError
-NombreExperimentoIncorrecto = InvalidExperimentNameError
-IdExistente = DuplicateIdError
