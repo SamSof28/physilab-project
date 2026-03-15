@@ -27,7 +27,7 @@ theme:
     text: Roboto
     code: Roboto Mono
   features:
-    - navigation.tabs 
+    - navigation.expand 
     - navigation.sections
     - toc.integrate 
     - content.code.copy 
