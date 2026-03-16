@@ -1,44 +1,73 @@
 # Arquitectura
 
-Esta seccion describe las decisiones de diseno que estructuran el proyecto.
+Esta sección explica cómo está organizado PhysiLab y por qué su diseño es fácil de mantener y escalar.
 
-## Uso de src layout
+## Estructura de código
 
-El codigo fuente vive bajo `src/mi_app`, evitando importaciones accidentales desde la raiz del repositorio y mejorando la separacion entre codigo, pruebas y configuracion.
+El proyecto usa una estructura src para separar claramente el código de aplicación del resto del repositorio.
 
-Beneficios:
+```text
+src/
+  mi_app/
+    cli.py
+    services.py
+    storage.py
+    models/
+```
 
-- imports mas confiables en desarrollo y CI;
-- estructura clara para empaquetado;
-- menor acoplamiento con scripts externos.
+Ventajas principales:
 
-## Separacion por capas
+- Importaciones más seguras en desarrollo y CI.
+- Mejor separación de responsabilidades.
+- Base más limpia para empaquetado y crecimiento.
 
-El proyecto esta organizado en capas con responsabilidades explicitas:
+## Diseño por capas
 
-- `cli.py`: adaptador de entrada/salida para linea de comandos.
-- `services.py`: logica de negocio y formulas fisicas.
-- `models/`: entidades de dominio y validaciones en dataclasses.
-- `storage.py`: persistencia JSON desacoplada por protocolo.
+```mermaid
+flowchart TB
+    A[Capa CLI\nTyper + Rich] --> B[Capa de Servicios\nReglas de negocio]
+    B --> C[Modelos de Dominio\nMRU y MRUA]
+    B --> D[Capa de Persistencia\nJSON]
+```
 
-Flujo tipico:
+### Capa CLI
 
-1. CLI recibe argumentos.
-2. Se construye un modelo de dominio.
-3. El servicio valida y calcula datos faltantes.
-4. Storage persiste y recupera los ensayos.
+- Recibe y valida argumentos de comandos.
+- Construye objetos de dominio.
+- Muestra resultados y errores de forma legible.
 
-## Principios de codigo limpio aplicados
+### Capa de servicios
 
-- Responsabilidad unica: cada modulo tiene una funcion dominante.
-- Bajo acoplamiento: servicio depende de abstraccion de storage.
-- Nombres de dominio: metodos y clases expresan conceptos fisicos.
-- Validacion temprana: modelos y servicios detectan datos invalidos pronto.
-- Excepciones de dominio: errores con significado especifico para el problema.
+- Contiene reglas de negocio.
+- Resuelve variables físicas faltantes.
+- Lanza excepciones de dominio cuando hay inconsistencias.
 
-## Escalabilidad
+### Modelos de dominio
 
-El diseno actual permite crecer en dos direcciones:
+- Representan entidades físicas con dataclasses.
+- Aplican validaciones tempranas.
+- Definen atributos tipados para cálculos confiables.
 
-- nuevos modelos fisicos (por ejemplo, tiro parabolico) sin modificar la CLI existente de forma invasiva;
-- nuevas implementaciones de persistencia (SQL, API remota) respetando la misma interfaz.
+### Capa de persistencia
+
+- Carga y guarda experimentos en JSON.
+- Reconstruye instancias de modelos al leer.
+- Mantiene desacople con la lógica de negocio.
+
+## Flujo de una operación típica
+
+1. Usuario ejecuta un comando en la terminal.
+2. La CLI crea el modelo con los datos de entrada.
+3. El servicio valida y resuelve variables.
+4. Storage persiste el resultado.
+5. La CLI imprime confirmación al usuario.
+
+## Principios aplicados
+
+- Responsabilidad única por módulo.
+- Bajo acoplamiento entre capas.
+- Validación temprana para fallar rápido.
+- Nombres de dominio explícitos y mantenibles.
+
+!!! info "Escalabilidad"
+    La arquitectura permite agregar nuevos modelos físicos o nuevos backends de persistencia sin romper el flujo existente.

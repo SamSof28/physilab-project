@@ -1,6 +1,8 @@
-# Referencia tecnica
+# Referencia técnica
 
-Esta seccion integra documentacion automatica del codigo con mkdocstrings.
+Esta sección se genera automáticamente desde el código fuente mediante mkdocstrings.
+
+Úsala para consultar firmas, clases, métodos y contratos internos del proyecto.
 
 ## Modelos
 
@@ -20,6 +22,14 @@ Esta seccion integra documentacion automatica del codigo con mkdocstrings.
 
 ::: mi_app.services
 
-## Storage
+## Persistencia
 
 ::: mi_app.storage
+
+## CLI
+
+::: mi_app.cli
+
+## Excepciones
+
+::: mi_app.exceptions

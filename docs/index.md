@@ -1,93 +1,73 @@
-# 🔬 PhysiLab: CLI de Laboratorio de Cinemática
+# 🔬 PhysiLab: Laboratorio de Cinemática por CLI
 
-Bienvenido a la documentación oficial de **PhysiLab**, un cuaderno de laboratorio digital diseñado para gestionar, calcular y persistir ensayos de movimiento rectilíneo (MRU y MRUA) mediante una interfaz de línea de comandos moderna en Python.
+Bienvenido a la documentación oficial de PhysiLab, una aplicación de línea de comandos para registrar, calcular y persistir ensayos de movimiento rectilíneo.
 
-Este proyecto implementa estándares profesionales como **Clean Code**, **Validación de Dominio** y **Arquitectura por Capas**.
-
----
-
-## ✨ Características Principales
-
-- **Solucionador de Física Automático**: Calcula variables faltantes (distancia, tiempo, velocidad, aceleración) de forma automática.
-- **Integridad de Datos**: Basado en `dataclasses` de Python y validación `__post_init__` para evitar datos físicamente imposibles (ej. tiempos negativos).
-- **Persistencia Robusta**: Serialización automática en formato JSON de todos tus ensayos de laboratorio.
-- **Interfaz CLI Intuitiva**: Gestión de ensayos simple y rápida desde la terminal.
-- **Altos Estándares de Calidad**: Código verificado con **Radon** (Complejidad Ciclomática A) y **Ruff**.
+Está pensada para aprendizaje, práctica de ingeniería de software y experimentación rápida en terminal.
 
 ---
 
-## 📦 Arquitectura del Sistema
+## ✨ Qué puedes hacer con PhysiLab
 
-PhysiLab sigue una arquitectura modular para garantizar que el código sea fácil de mantener y escalar.
+- Registrar ensayos con identificador y nombre.
+- Calcular automáticamente la variable faltante en MRU.
+- Mantener historial persistente en JSON local.
+- Consultar y eliminar experimentos desde la CLI.
+- Trabajar con una arquitectura modular y mantenible.
+
+---
+
+## 🧠 Conceptos que aprenderás
+
+- Modelado de dominio con dataclasses.
+- Validación de datos físicos y reglas de negocio.
+- Arquitectura por capas aplicada a una CLI real.
+- Persistencia desacoplada usando almacenamiento JSON.
+- Documentación técnica con MkDocs + Material.
+
+---
+
+## 🏗️ Arquitectura del sistema
 
 ```mermaid
 flowchart LR
-    CLI[Capa CLI] --> Service[Servicio de Laboratorio]
-    Service --> Models[Modelos Físicos]
-    Service --> Storage[Almacenamiento JSON]
-    Models --> Validation[Validación Post-Init]
-    Storage --> JSON[(trials.json)]
-
+    CLI[Capa CLI] --> Service[Capa de Servicios]
+    Service --> Models[Modelos de Dominio]
+    Service --> Storage[Persistencia JSON]
+    Models --> Validation[Validación de datos]
+    Storage --> DB[(data/database.json)]
 ```
 
 ---
 
-## 🧠 Principios de Ingeniería Aplicados
-
-!!! info "Clean Code y Diseño"
-    - Responsabilidad Única: Cada clase y módulo tiene una sola razón para cambiar.
-    - Encapsulamiento: Los modelos protegen su propio estado mediante validaciones internas.
-    - Inversión de Dependencias: Los servicios dependen de abstracciones para el almacenamiento.
-    - Tipado Estático: Uso intensivo de Type Hints para un desarrollo libre de errores.
-
----
-
-## 📁 Estructura del Proyecto
-
-```text
-physilab-project/
-├── data/               # Archivos JSON persistentes
-├── docs/               # Documentación técnica (MkDocs)
-├── src/mi_app/
-│   ├── models/         # Entidades físicas (MRU, MRUA)
-│   ├── services.py     # Lógica de negocio y cálculos
-│   ├── storage.py      # Capa de persistencia
-│   └── cli.py          # Capa de interfaz (CLI)
-└── tests/              # Pruebas automatizadas
-```
-
-## 🚀 Flujo General de Ejecución
-Este diagrama muestra cómo interactúan las capas cuando registras un nuevo ensayo:
+## 🚀 Flujo general de ejecución
 
 ```mermaid
 sequenceDiagram
     participant Usuario
     participant CLI
-    participant Service
-    participant Model
+    participant Servicio
+    participant Modelo
     participant Storage
 
-    Usuario->>CLI: Ejecuta comando (ej. mru)
-    CLI->>Model: Instancia con datos de entrada
-    Model->>Model: __post_init__() (Valida negativos)
-    CLI->>Service: calculate_mru(model)
-    Service->>Service: Resuelve variable faltante
-    Service->>Storage: save_experiment()
-    Storage-->>Usuario: Confirmación y resultado
+    Usuario->>CLI: Ejecuta comando mru
+    CLI->>Modelo: Construye objeto de experimento
+    Modelo->>Modelo: Valida datos de entrada
+    CLI->>Servicio: calculate_mru(modelo)
+    Servicio->>Servicio: Resuelve variable faltante
+    Servicio->>Storage: save(experimento)
+    Storage-->>Usuario: Resultado y confirmación
 ```
 
 ---
 
-## 📚 Cómo navegar esta documentación
+## 📚 Navegación de la documentación
 
 | Sección | Contenido |
 | --- | --- |
-| Primeros pasos | Instalación con uv y configuración inicial. |
-| Guía de usuario | Ejemplos detallados de comandos y uso de la CLI. |
-| Arquitectura | Decisiones de diseño y principios de código limpio. |
-| Referencia | Documentación técnica generada automáticamente del código. |
-
----
+| Primeros pasos | Instalación, configuración y primera ejecución |
+| Guía de usuario | Uso práctico de comandos y persistencia |
+| Arquitectura | Diseño técnico, capas y decisiones clave |
+| Referencia | Documentación API generada desde el código |
 
 !!! tip "Recomendación"
-    Si es tu primera vez usando el proyecto, te recomendamos empezar por la sección Primeros pasos.
+    Si es tu primera vez con el proyecto, comienza por Primeros pasos y luego continúa con Guía de usuario.
