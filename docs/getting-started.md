@@ -4,7 +4,7 @@ En esta guía configurarás PhysiLab y ejecutarás tu primer experimento desde c
 
 ## Requisitos
 
-- Python 3.11 o superior.
+- Python 3.14.
 - [uv](https://docs.astral.sh/uv/) para gestionar entorno y dependencias.
 - Una terminal (PowerShell, Bash o similar).
 
