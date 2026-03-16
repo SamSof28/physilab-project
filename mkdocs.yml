@@ -29,7 +29,6 @@ theme:
   features:
     - navigation.expand 
     - navigation.sections
-    - toc.integrate 
     - content.code.copy 
 
 plugins:
