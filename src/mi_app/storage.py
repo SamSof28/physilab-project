@@ -1,84 +1,48 @@
-"""Persistencia JSON para los ensayos de PhysiLab.
-
-Este módulo provee una interfaz `Storage` y una implementación `JSONStorage`
-que se encarga de serializar y deserializar instancias de los modelos físicos
-desde/hacia un archivo JSON.
-
-Las implementaciones deben trabajar con las clases:
-`TiroParabolico`, `CaidaLibre` y `MovimientoRectilineoUniforme`.
-"""
+"""Persistencia JSON para los ensayos de PhysiLab."""
 
 import json
 from pathlib import Path
-from typing import List, Protocol
-from .models import UniformRectilinearMotion, UniformlyAcceleratedRectilinearMotion
-from .exceptions import InvalidExperimentNameError
+from typing import Protocol
 
-class Storage(Protocol):
-    """Protocolo que define la interfaz de persistencia para los ensayos.
-
-    Implementaciones deben exponer los métodos `load()` y `save(...)`.
-    """
-
-    def load(self) -> List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]: ...
-
-    def save(self, experiments: List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]) -> None: ...
+from .models import MovimientoRectilineoUniforme, MovimientoRectilineoUniformementeAcelerado
+from .exceptions import ErrorNombreExperimentoInvalido
 
 
-class JsonStorage:
-    """Implementación de `Storage` que usa un archivo JSON para persistir ensayos.
+class Almacenamiento(Protocol):
+    """Protocolo que define la interfaz de persistencia para los ensayos."""
 
-    Attributes:
-        filepath (Path): Ruta al archivo JSON donde se almacenan los ensayos.
-    """
+    def cargar(self) -> list[MovimientoRectilineoUniforme | MovimientoRectilineoUniformementeAcelerado]: ...
 
-    def __init__(self, filepath: Path):
-        """Inicializa el almacenamiento con la ruta al archivo.
+    def guardar(self, ensayos: list[MovimientoRectilineoUniforme | MovimientoRectilineoUniformementeAcelerado]) -> None: ...
 
-        Args:
-            filepath (Path): Ruta al archivo JSON destino.
-        """
-        self.filepath = filepath
 
-    def load(self) -> List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]:
-        """Carga y deserializa los ensayos desde el archivo JSON.
+class AlmacenamientoJson:
+    """Implementación de persistencia basada en un archivo JSON."""
 
-        Si el archivo no existe, devuelve una lista vacía.
+    def __init__(self, ruta_archivo: Path):
+        self.ruta_archivo = ruta_archivo
 
-        Returns:
-            List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]:
-                Lista de instancias deserializadas.
-
-        Raises:
-            NombreExperimentoIncorrecto: Si el campo `tipo` en el JSON no coincide
-                con ninguna de las clases de modelo esperadas.
-        """
-        if not self.filepath.exists():
+    def cargar(self) -> list[MovimientoRectilineoUniforme | MovimientoRectilineoUniformementeAcelerado]:
+        if not self.ruta_archivo.exists():
             return []
 
-        with open(self.filepath, "r") as f:
-            data = json.load(f)
+        with open(self.ruta_archivo, "r", encoding="utf-8") as archivo:
+            datos = json.load(archivo)
 
-        experiments: List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion] = []
+        ensayos: list[MovimientoRectilineoUniforme | MovimientoRectilineoUniformementeAcelerado] = []
 
-        for item in data:
-            experiment_type = item.get("tipo")
+        for item in datos:
+            tipo_experimento = item.get("tipo")
 
-            if experiment_type == "Movimiento Rectilineo Uniforme":
-                experiments.append(UniformRectilinearMotion(**item))
-            elif experiment_type == "Movimiento Rectilineo Uniformemente Acelerado": 
-                experiments.append(UniformlyAcceleratedRectilinearMotion(**item))
+            if tipo_experimento == "Movimiento Rectilineo Uniforme":
+                ensayos.append(MovimientoRectilineoUniforme(**item))
+            elif tipo_experimento == "Movimiento Rectilineo Uniformemente Acelerado":
+                ensayos.append(MovimientoRectilineoUniformementeAcelerado(**item))
             else:
-                raise InvalidExperimentNameError(experiment_type)
+                raise ErrorNombreExperimentoInvalido(tipo_experimento)
 
-        return experiments
+        return ensayos
 
-    def save(self, experiments: List[UniformRectilinearMotion | UniformlyAcceleratedRectilinearMotion]) -> None:
-        """Serializa y guarda la lista de ensayos en el archivo JSON.
-
-        Args:
-            experiments: Lista de instancias de ensayo a persistir.
-        """
-        with open(self.filepath, "w") as f:
-            json.dump([experiment.__dict__ for experiment in experiments], f, indent=2, ensure_ascii=False)
-
+    def guardar(self, ensayos: list[MovimientoRectilineoUniforme | MovimientoRectilineoUniformementeAcelerado]) -> None:
+        with open(self.ruta_archivo, "w", encoding="utf-8") as archivo:
+            json.dump([ensayo.__dict__ for ensayo in ensayos], archivo, indent=2, ensure_ascii=False)

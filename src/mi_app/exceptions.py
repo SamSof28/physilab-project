@@ -1,117 +1,81 @@
-class AppError(Exception):
-    """Base class for all custom exceptions in PhysiLab.
-
-    Use this as the root exception so higher-level code can catch
-    application-specific errors uniformly.
-    """
+class ErrorAplicacion(Exception):
+    """Excepción base para todos los errores del dominio."""
 
 
-class PhysicsLabError(AppError):
-    """Errors related to physics computations or input validation.
-
-    Examples: invalid angles, negative physical values, insufficient data.
-    """
+class ErrorFisicaLaboratorio(ErrorAplicacion):
+    """Errores relacionados con cálculos físicos o validación de entradas."""
 
 
-class DatabaseError(AppError):
-    """Errors related to data storage or database operations.
-
-    Examples: duplicate IDs, missing records, invalid experiment names.
-    """
+class ErrorBaseDatos(ErrorAplicacion):
+    """Errores relacionados con operaciones de persistencia y registros."""
 
 
-class InvalidAngleError(PhysicsLabError):
-    """Raised when an angle value provided by the user is invalid.
+class ErrorAnguloInvalido(ErrorFisicaLaboratorio):
+    """Se lanza cuando el ángulo ingresado no es válido."""
 
-    Attributes:
-        angulo (float): The invalid angle value supplied by the user.
-    """
-
-    def __init__(self, angle: float) -> None:
-        self.angle: float = angle
-        super().__init__(f"Ángulo inválido: el valor {angle}° no es aceptable.")
+    def __init__(self, angulo: float) -> None:
+        self.angulo: float = angulo
+        super().__init__(f"Ángulo inválido: el valor {angulo}° no es aceptable.")
 
 
-class NegativeValueError(PhysicsLabError):
-    """Raised when a numeric value that must be non-negative is negative.
+class ErrorValorNegativo(ErrorFisicaLaboratorio):
+    """Se lanza cuando un valor que debe ser no negativo es negativo."""
 
-    Attributes:
-        numero (float): The negative number provided by the user.
-    """
-
-    def __init__(self, value: float) -> None:
-        self.value: float = value
-        super().__init__(f"Valor inválido: {value} — se esperaba un valor no negativo.")
+    def __init__(self, valor: float) -> None:
+        self.valor: float = valor
+        super().__init__(f"Valor inválido: {valor}. Se esperaba un valor no negativo.")
 
 
-class PhysicsDivisionByZeroError(PhysicsLabError):
-    """Raised when a physics calculation would divide by zero.
+class ErrorDivisionPorCeroFisica(ErrorFisicaLaboratorio):
+    """Se lanza cuando un cálculo físico intentaría dividir por cero."""
 
-    Attributes:
-        magnitud (str): The quantity attempted to be calculated (e.g. 'tiempo').
-    """
-
-    def __init__(self, quantity: float):
-        self.quantity = quantity
-        super().__init__(f"Error matemático: imposible calcular '{quantity}' con divisor igual a cero.")
-
-class NegativeDiscriminantError(PhysicsLabError):
-    """It is generated when a physical calculation of the discriminant is less than zero.
-
-    Attributes:
-        magnitud (float): The quantity attempted to be calculated (e.g. 'discriminante').
-    """
-
-    def __init__(self, discriminant: float):
-        self.discriminant: float = discriminant
-        super().__init__(f"Error matematico: Imposible calcular '{discriminant}' con disciminante menor a cero")
+    def __init__(self, magnitud: str):
+        self.magnitud = magnitud
+        super().__init__(f"Error matemático: imposible calcular '{magnitud}' con divisor igual a cero.")
 
 
-class InsufficientDataError(PhysicsLabError):
-    """Raised when there are not enough input values to perform a calculation.
+class ErrorDiscriminanteNegativo(ErrorFisicaLaboratorio):
+    """Se lanza cuando el discriminante de una ecuación es menor que cero."""
 
-    Attributes:
-        cantidad_faltante (int): Number of missing values required to compute the result.
-    """
-
-    def __init__(self, missing_count: int = 1) -> None:
-        self.missing_count: int = missing_count
-        plural = "dato" if missing_count == 1 else "datos"
-        super().__init__(f"Datos insuficientes: faltan {missing_count} {plural} para completar el cálculo.")
+    def __init__(self, discriminante: float):
+        self.discriminante: float = discriminante
+        super().__init__(
+            f"Error matemático: imposible resolver con discriminante menor a cero ({discriminante})."
+        )
 
 
-class ExperimentNotFoundError(DatabaseError):
-    """Raised when a referenced experiment identifier is invalid or not found.
+class ErrorDatosInsuficientes(ErrorFisicaLaboratorio):
+    """Se lanza cuando no hay suficientes datos para realizar un cálculo."""
 
-    Attributes:
-        id (int): The identifier supplied by the caller.
-    """
-
-    def __init__(self, experiment_id: int) -> None:
-        self.experiment_id = experiment_id
-        super().__init__(f"Identificador inválido: el id {experiment_id} no corresponde a ningún experimento.")
-
-
-class InvalidExperimentNameError(DatabaseError):
-    """Raised when the supplied experiment name is not recognized.
-
-    Attributes:
-        nombre (str): The invalid experiment name provided by the user.
-    """
-
-    def __init__(self, name: str) -> None:
-        self.name: str = name
-        super().__init__(f"Nombre de experimento inválido: '{name}' no es un ensayo válido.")
+    def __init__(self, cantidad_faltante: int = 1) -> None:
+        self.cantidad_faltante: int = cantidad_faltante
+        plural = "dato" if cantidad_faltante == 1 else "datos"
+        super().__init__(
+            f"Datos insuficientes: faltan {cantidad_faltante} {plural} para completar el cálculo."
+        )
 
 
-class DuplicateIdError(DatabaseError):
-    """Raised when attempting to create a record with an identifier that already exists.
+class ErrorExperimentoNoEncontrado(ErrorBaseDatos):
+    """Se lanza cuando el identificador no existe en los registros."""
 
-    Attributes:
-        id (int): The duplicated identifier.
-    """
+    def __init__(self, id_experimento: int) -> None:
+        self.id_experimento = id_experimento
+        super().__init__(
+            f"Identificador inválido: el id {id_experimento} no corresponde a ningún experimento."
+        )
 
-    def __init__(self, duplicate_id: int):
-        self.duplicate_id: int = duplicate_id
-        super().__init__(f"Identificador duplicado: el id {duplicate_id} ya existe en la base de datos.")
 
+class ErrorNombreExperimentoInvalido(ErrorBaseDatos):
+    """Se lanza cuando el tipo de experimento no es reconocido."""
+
+    def __init__(self, nombre: str) -> None:
+        self.nombre: str = nombre
+        super().__init__(f"Nombre de experimento inválido: '{nombre}' no es un ensayo válido.")
+
+
+class ErrorIdDuplicado(ErrorBaseDatos):
+    """Se lanza cuando se intenta registrar un ID que ya existe."""
+
+    def __init__(self, id_duplicado: int):
+        self.id_duplicado: int = id_duplicado
+        super().__init__(f"Identificador duplicado: el id {id_duplicado} ya existe en la base de datos.")

@@ -3,10 +3,10 @@ from datetime import datetime
 
 
 @dataclass
-class PhysicalExperiment:
+class ExperimentoFisico:
     """Representa metadatos comunes a todos los ensayos.
 
-    Attributes:
+    Atributos:
         id (int): Identificador único del ensayo.
         nombre (str): Nombre descriptivo del ensayo.
         tipo (str): Tipo de ensayo (p.ej. 'Tiro Parabolico').
@@ -14,7 +14,7 @@ class PhysicalExperiment:
     """
 
     id: int
-    name: str
-    experiment_type: str
-    created_at: str = field(default_factory=lambda: datetime.now().strftime("%Y-%m-%d %H:%M"))
+    nombre: str
+    tipo: str
+    fecha: str = field(default_factory=lambda: datetime.now().strftime("%Y-%m-%d %H:%M"))
 
