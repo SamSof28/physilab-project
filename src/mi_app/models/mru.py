@@ -12,7 +12,7 @@ class MovimientoRectilineoUniforme(ExperimentoFisico):
     - distancia (m)
     - tiempo (s)
 
-    Atributos:
+    args:
         velocidad (float | None): Velocidad constante en m/s.
         distancia (float | None): Distancia recorrida en metros.
         tiempo (float | None): Tiempo transcurrido en segundos.
@@ -28,10 +28,10 @@ class MovimientoRectilineoUniforme(ExperimentoFisico):
     def _validar_valor_no_negativo(self, valores: list[float | None]) -> None:
         """Valida que los valores numéricos no sean negativos.
 
-        Argumentos:
+        args:
             valores (list): Lista de valores numéricos a validar.
 
-        Errores:
+        raises:
             ErrorValorNegativo: Si alguno de los valores es negativo.
         """
         for valor in valores:

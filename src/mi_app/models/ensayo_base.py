@@ -6,7 +6,7 @@ from datetime import datetime
 class ExperimentoFisico:
     """Representa metadatos comunes a todos los ensayos.
 
-    Atributos:
+    Atributtes:
         id (int): Identificador único del ensayo.
         nombre (str): Nombre descriptivo del ensayo.
         tipo (str): Tipo de ensayo (p.ej. 'Tiro Parabolico').

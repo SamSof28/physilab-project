@@ -15,7 +15,7 @@ class MovimientoRectilineoUniformementeAcelerado(ExperimentoFisico):
     - velocidad_inicial (m/s)
     - velocidad_final (m/s)
 
-    Atributos:
+    args:
         posicion_inicial (float | None): Posición inicial en m
         posicion_final (float | None): Posición final en m
         aceleracion (float | None): aceleracion en m/s^2
