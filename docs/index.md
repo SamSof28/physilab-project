@@ -30,11 +30,11 @@ Está pensada para aprendizaje, práctica de ingeniería de software y experimen
 
 ```mermaid
 flowchart LR
-    CLI[Capa CLI] --> Service[Capa de Servicios]
-    Service --> Models[Modelos de Dominio]
-    Service --> Storage[Persistencia JSON]
-    Models --> Validation[Validación de datos]
-    Storage --> DB[(data/database.json)]
+    CLI[Capa CLI] --> Servicio[Capa de Servicios]
+    Servicio --> Modelos[Modelos de Dominio]
+    Servicio --> Almacenamiento[Persistencia JSON]
+    Modelos --> Validacion[Validación de datos]
+    Almacenamiento --> BaseDatos[(data/database.json)]
 ```
 
 ---
@@ -47,15 +47,15 @@ sequenceDiagram
     participant CLI
     participant Servicio
     participant Modelo
-    participant Storage
+    participant Almacenamiento
 
     Usuario->>CLI: Ejecuta comando mru
     CLI->>Modelo: Construye objeto de experimento
     Modelo->>Modelo: Valida datos de entrada
-    CLI->>Servicio: calculate_mru(modelo)
+    CLI->>Servicio: calcular_mru(modelo)
     Servicio->>Servicio: Resuelve variable faltante
-    Servicio->>Storage: save(experimento)
-    Storage-->>Usuario: Resultado y confirmación
+    Servicio->>Almacenamiento: guardar(experimento)
+    Almacenamiento-->>Usuario: Resultado y confirmación
 ```
 
 ---

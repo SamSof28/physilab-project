@@ -59,7 +59,7 @@ flowchart TB
 1. Usuario ejecuta un comando en la terminal.
 2. La CLI crea el modelo con los datos de entrada.
 3. El servicio valida y resuelve variables.
-4. Storage persiste el resultado.
+4. La capa de almacenamiento persiste el resultado.
 5. La CLI imprime confirmación al usuario.
 
 ## Principios aplicados

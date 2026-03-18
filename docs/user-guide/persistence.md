@@ -38,7 +38,7 @@ Ejemplo de un registro MRU:
 ```
 
 !!! info "Serialización"
-    La capa de storage convierte instancias de modelos en objetos JSON y, al cargar, reconstruye los modelos según el campo tipo.
+    La capa de almacenamiento convierte instancias de modelos en objetos JSON y, al cargar, reconstruye los modelos según el campo tipo.
 
 ## Reglas de consistencia
 
@@ -50,5 +50,5 @@ Ejemplo de un registro MRU:
 
 - Ejecuta listar para comprobar que los ensayos se guardaron correctamente.
 - Si quieres historial de cambios, puedes versionar el archivo JSON.
-- Para escenarios de mayor escala, puedes extender la capa storage con SQL o API.
+- Para escenarios de mayor escala, puedes extender la capa de almacenamiento con SQL o API.
 
