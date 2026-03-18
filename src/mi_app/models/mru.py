@@ -22,7 +22,6 @@ class MovimientoRectilineoUniforme(ExperimentoFisico):
     tiempo: float | None = None
 
     def __post_init__(self):
-        # La rúbrica exige validaciones mediante métodos privados auxiliares
         self._validar_valor_no_negativo([self.velocidad, self.distancia, self.tiempo])
             
     def _validar_valor_no_negativo(self, valores: list[float | None]) -> None:
