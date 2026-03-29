@@ -13,5 +13,6 @@ dependencies = [
     "radon>=6.0.1",
     "rich>=14.3.2",
     "ruff>=0.15.2",
+    "streamlit>=1.55.0",
     "typer>=0.24.0",
 ]
