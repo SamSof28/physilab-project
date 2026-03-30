@@ -14,7 +14,7 @@ from src.mi_app.services import LaboratoryService
 
 @pytest.fixture
 def service_mock() -> LaboratoryService:
-    """Crea una instancia del servicio con un almacenamiento simulado."""
+    """Crea una instancia del servicio con un storage simulado."""
     almacenamiento_simulado = MagicMock()
     almacenamiento_simulado.cargar.return_value = []
     return LaboratoryService(almacenamiento_simulado)
@@ -105,8 +105,8 @@ def test_division_por_cero_mru(service_mock) -> None:
 
 
 def test_carga_vacia_almacenamiento(service_mock) -> None:
-    """Verifica que se calcule y persista correctamente con almacenamiento vacío."""
-    service_mock.almacenamiento.cargar.return_value = []
+    """Verifica que se calcule y persista correctamente con storage vacío."""
+    service_mock.storage.cargar.return_value = []
 
     ensayo = MovimientoRectilineoUniforme(
         id=101,
@@ -132,7 +132,7 @@ def test_id_duplicado_lanza_error(service_mock) -> None:
         tiempo=2,
         distancia=10,
     )
-    service_mock.almacenamiento.cargar.return_value = [ensayo_existente]
+    service_mock.storage.cargar.return_value = [ensayo_existente]
 
     nuevo_ensayo = MovimientoRectilineoUniforme(
         id=50,
@@ -157,16 +157,16 @@ def test_eliminar_ensayo_exitoso(service_mock) -> None:
         tiempo=5,
         distancia=50,
     )
-    service_mock.almacenamiento.cargar.return_value = [ensayo]
+    service_mock.storage.cargar.return_value = [ensayo]
 
     service_mock.eliminar_ensayo(7)
 
-    service_mock.almacenamiento.guardar.assert_called_once()
+    service_mock.storage.guardar.assert_called_once()
 
 
 def test_eliminar_ensayo_no_encontrado(service_mock) -> None:
     """Verifica que se lance error cuando el ensayo no existe."""
-    service_mock.almacenamiento.cargar.return_value = []
+    service_mock.storage.cargar.return_value = []
 
     with pytest.raises(ErrorExperimentoNoEncontrado):
         service_mock.eliminar_ensayo(999)
