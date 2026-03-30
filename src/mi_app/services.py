@@ -9,27 +9,27 @@ from .exceptions import (
 )
 from .models.mru import MovimientoRectilineoUniforme
 from .models.mrua import MovimientoRectilineoUniformementeAcelerado
-from .storage import AlmacenamientoJson
+from .storage import JsonStorage
 
 
-class ServicioLaboratorio:
+class LaboratoryService:
     """Servicio principal del dominio del laboratorio."""
 
-    def __init__(self, almacenamiento: AlmacenamientoJson):
-        self.almacenamiento: AlmacenamientoJson = almacenamiento
+    def __init__(self, storage: JsonStorage):
+        self.storage: JsonStorage = storage
 
     def _verificar_id_unico(self, id_experimento: int) -> None:
         if id_experimento <= 0:
             raise ErrorExperimentoNoEncontrado(id_experimento)
 
-        ensayos = self.almacenamiento.cargar()
+        ensayos = self.storage.cargar()
         if any(ensayo.id == id_experimento for ensayo in ensayos):
             raise ErrorIdDuplicado(id_experimento)
 
     def _guardar_ensayo(self, ensayo: object) -> None:
-        ensayos = self.almacenamiento.cargar()
+        ensayos = self.storage.cargar()
         ensayos.append(ensayo)
-        self.almacenamiento.guardar(ensayos)
+        self.storage.guardar(ensayos)
 
     def _division_segura(self, numerador: float, denominador: float, nombre_magnitud: str) -> float:
         if denominador == 0:
@@ -118,10 +118,10 @@ class ServicioLaboratorio:
         return mrua
 
     def eliminar_ensayo(self, id_experimento: int) -> None:
-        ensayos = self.almacenamiento.cargar()
+        ensayos = self.storage.cargar()
         ensayos_filtrados = [ensayo for ensayo in ensayos if ensayo.id != id_experimento]
 
         if len(ensayos_filtrados) == len(ensayos):
             raise ErrorExperimentoNoEncontrado(id_experimento)
 
-        self.almacenamiento.guardar(ensayos_filtrados)
+        self.storage.guardar(ensayos_filtrados)
