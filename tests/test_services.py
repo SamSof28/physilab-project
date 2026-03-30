@@ -9,15 +9,15 @@ from src.mi_app.exceptions import (
     ErrorValorNegativo,
 )
 from src.mi_app.models.mru import MovimientoRectilineoUniforme
-from src.mi_app.services import ServicioLaboratorio
+from src.mi_app.services import LaboratoryService
 
 
 @pytest.fixture
-def service_mock() -> ServicioLaboratorio:
+def service_mock() -> LaboratoryService:
     """Crea una instancia del servicio con un almacenamiento simulado."""
     almacenamiento_simulado = MagicMock()
     almacenamiento_simulado.cargar.return_value = []
-    return ServicioLaboratorio(almacenamiento_simulado)
+    return LaboratoryService(almacenamiento_simulado)
 
 
 def test_calculo_distancia_mru(service_mock) -> None:
