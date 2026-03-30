@@ -8,7 +8,7 @@ from .models import MovimientoRectilineoUniforme, MovimientoRectilineoUniformeme
 from .exceptions import ErrorNombreExperimentoInvalido
 
 
-class Almacenamiento(Protocol):
+class Storage(Protocol):
     """Protocolo que define la interfaz de persistencia para los ensayos."""
 
     def cargar(self) -> list[MovimientoRectilineoUniforme | MovimientoRectilineoUniformementeAcelerado]: ...
@@ -16,7 +16,7 @@ class Almacenamiento(Protocol):
     def guardar(self, ensayos: list[MovimientoRectilineoUniforme | MovimientoRectilineoUniformementeAcelerado]) -> None: ...
 
 
-class AlmacenamientoJson:
+class JsonStorage:
     """Implementación de persistencia basada en un archivo JSON."""
 
     def __init__(self, ruta_archivo: Path):
