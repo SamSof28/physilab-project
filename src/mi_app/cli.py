@@ -8,16 +8,16 @@ from rich.table import Table
 
 from .exceptions import ErrorAplicacion
 from .models.mru import MovimientoRectilineoUniforme
-from .services import ServicioLaboratorio
-from .storage import AlmacenamientoJson
+from .services import LaboratoryService
+from .storage import JsonStorage
 
 app = typer.Typer()
 consola = Console()
 
 RUTA_DATOS = Path("data/database.json")
 
-almacenamiento = AlmacenamientoJson(RUTA_DATOS)
-servicio = ServicioLaboratorio(almacenamiento)
+almacenamiento = JsonStorage(RUTA_DATOS)
+servicio = LaboratoryService(almacenamiento)
 
 
 @app.command()
