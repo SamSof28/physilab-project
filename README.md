@@ -8,6 +8,7 @@ Enlace del proyecto: [https://github.com/SamSof28/physilab-project](https://gith
 ![JSON](https://img.shields.io/badge/data-JSON-000000?style=for-the-badge&logo=json&logoColor=white)
 ![Typer](https://img.shields.io/badge/CLI-Typer-009688?style=for-the-badge&logo=typer&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/frontend-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Plotly](https://img.shields.io/badge/Graphs-Plotly-3776AB?style=for-the-badge&logo=Plotly&logoColor=white)
 
 PhysiLab es una aplicación de línea de comandos (CLI) de alto rendimiento diseñada para la simulación y registro de fenómenos físicos. Permite a estudiantes e investigadores gestionar ensayos experimentales con precisión científica, aplicando principios de **Clean Code** y **Arquitectura por Capas**.
 
