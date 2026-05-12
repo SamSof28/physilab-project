@@ -9,7 +9,9 @@ class MRUASchema(BaseModel):
     velocidad_inicial: float | None = None
     velocidad_final: float | None = None
 
-    @field_validator("posicion_inicial", "posicion_final", "tiempo")
+    # Ahora incluimos TODOS los campos numéricos en el validador
+    @field_validator("posicion_inicial", "posicion_final", "aceleracion", 
+                     "tiempo", "velocidad_inicial", "velocidad_final")
     @classmethod
     def validar_no_negativos(cls, v):
         if v is not None and v < 0:
