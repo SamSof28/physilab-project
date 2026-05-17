@@ -1,7 +1,7 @@
 [project]
 name = "physilab-project"
 version = "0.1.0"
-description = "Cuaderno de laboratorio digital para simular y registrar ensayos de cinemática (MRU, Tiro Parabólico) con cálculos automáticos"
+description = "Cuaderno de laboratorio digital para simular y registrar ensayos de cinemática (MRU y MRUA) con cálculos automáticos"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
@@ -11,6 +11,7 @@ dependencies = [
     "mkdocstrings[python]>=1.0.3",
     "numpy>=2.4.2",
     "plotly>=6.6.0",
+    "pydantic>=2.13.0",
     "pydantic-settings>=2.14.0",
     "pytest>=9.0.2",
     "python-dotenv>=1.2.2",
@@ -20,4 +21,5 @@ dependencies = [
     "streamlit>=1.55.0",
     "supabase>=2.28.3",
     "typer>=0.24.0",
+    "uvicorn>=0.46.0",
 ]
