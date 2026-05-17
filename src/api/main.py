@@ -1,25 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.routers import experiments # Importamos tu router
+from src.api.routers import experiments
 from src.core.config import settings
 
 app = FastAPI(
     title=settings.api_title,
-    version=settings.api_version
+    version=settings.api_version,
+    description="Backend modular de procesamiento físico y cinemático para PhysiLab"
 )
 
-# Configuración de CORS (Permitir que Streamlit hable con FastAPI)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # En producción pondrías la URL de tu Streamlit
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# "Enchufamos" el router de experimentos
-app.include_router(experiments.router, prefix="/experiments", tags=["Physics"])
+app.include_router(experiments.router, prefix="/experiments", tags=["Experiments CRUD"])
 
-@app.get("/")
+@app.get("/", tags=["Root"])
 def read_root():
-    return {"message": "Bienvenido a la API de PhysiLab"}
+    return {"status": "online", "message": "Bienvenido a la API de PhysiLab"}

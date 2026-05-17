@@ -1,48 +1,75 @@
 from src.storage.base import BaseRepository
 from src.schemas.experiment import ExperimentCreate
-from src.schemas.mru import MRUSchema
+from src.core.exceptions import StorageError
 
 class ExperimentRepository(BaseRepository):
     
     def create_mru_experiment(self, exp_data: ExperimentCreate, physics_data: dict):
-        # 1. Insertar en la tabla maestra 'experimentos'
-        res_exp = self.client.table("experimentos").insert({
-            "nombre": exp_data.nombre,
-            "tipo": "MRU"
-        }).execute()
-        
-        if not res_exp.data:
-            self._handle_error("Insert Experimento", "No se pudo crear el maestro")
+        try:
+            # 1. Insertar en la tabla maestra 'experimentos'
+            res_exp = self.client.table("experimentos").insert({
+                "nombre": exp_data.nombre,
+                "tipo": exp_data.tipo
+            }).execute()
             
-        # 2. Obtener el ID generado (El ID heredado)
-        new_id = res_exp.data[0]["id"]
-        
-        # 3. Insertar en la tabla hija 'ensayos_mru' con su PROPIO ID autoincremental
-        # y la relación experimento_id
-        res_physics = self.client.table("ensayos_mru").insert({
-            "experimento_id": new_id,
-            "distancia": physics_data["distancia"],
-            "velocidad": physics_data["velocidad"],
-            "tiempo": physics_data["tiempo"]
-        }).execute()
-        
-        return {"maestro": res_exp.data[0], "detalle": res_physics.data[0]}
-    
-    def create_mrua_experiment(self, nombre: str, datos: dict):
-        # 1. Crear el registro maestro
-        res_exp = self.client.table("experimentos").insert({
-            "nombre": nombre,
-            "tipo": "MRUA"
-        }).execute()
-        
-        new_id = res_exp.data[0]["id"]
-        
-        # 2. Crear el detalle de física vinculado al id maestro
-        datos["experimento_id"] = new_id
-        res_physics = self.client.table("ensayos_mrua").insert(datos).execute()
-        
-        return {"id": new_id, "detalle": res_physics.data[0]}
+            if not res_exp.data:
+                raise StorageError("Insert", "No se pudo crear el experimento maestro")
+            
+            # Obtener el ID que Supabase generó automáticamente
+            nuevo_id = res_exp.data[0]["id"]
+            
+            # 2. Insertar en 'ensayos_mru' usando ese ID como LLAVE FORÁNEA
+            physics_data["experimento_id"] = nuevo_id
+            res_physics = self.client.table("ensayos_mru").insert(physics_data).execute()
+            
+            return {
+                "id": nuevo_id,
+                "nombre": exp_data.nombre,
+                "detalle": res_physics.data[0]
+            }
+        except Exception as e:
+            self._handle_error("create_mru_experiment", str(e))
 
-    def get_all_experiments(self):
-        """Consulta que une las tablas para mostrar resultados."""
-        return self.client.table("experimentos").select("*, ensayos_mru(*), ensayos_mrua(*)").execute()
+    def create_mrua_experiment(self, exp_data: ExperimentCreate, physics_data: dict):
+        try:
+            # Repetimos el proceso para MRUA
+            res_exp = self.client.table("experimentos").insert({
+                "nombre": exp_data.nombre,
+                "tipo": exp_data.tipo
+            }).execute()
+            
+            nuevo_id = res_exp.data[0]["id"]
+            
+            physics_data["experimento_id"] = nuevo_id
+            res_physics = self.client.table("ensayos_mrua").insert(physics_data).execute()
+            
+            return {
+                "id": nuevo_id,
+                "nombre": exp_data.nombre,
+                "detalle": res_physics.data[0]
+            }
+        except Exception as e:
+            self._handle_error("create_mrua_experiment", str(e))
+
+    def get_all(self) -> list:
+        response = self.client.table("experimentos").select("*").execute()
+        return response.data
+
+    def get_by_id(self, exp_id: int) -> dict | None:
+        response = self.client.table("experimentos").select("*").eq("id", exp_id).execute()
+        if not response.data:
+            return None
+        
+        exp = response.data[0]
+        # Traemos el detalle correspondiente de manera limpia
+        if exp["tipo"] == "MRU":
+            det = self.client.table("ensayos_mru").select("*").eq("experimento_id", exp_id).execute()
+        else:
+            det = self.client.table("ensayos_mrua").select("*").eq("experimento_id", exp_id).execute()
+            
+        exp["detalle"] = det.data[0] if det.data else {}
+        return exp
+
+    def delete(self, exp_id: int) -> bool:
+        response = self.client.table("experimentos").delete().eq("id", exp_id).execute()
+        return len(response.data) > 0
