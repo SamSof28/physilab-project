@@ -1,6 +1,5 @@
 import pytest
 from unittest.mock import MagicMock
-from pydantic import ValidationError
 
 from src.core.exceptions import (
     ErrorDivisionPorCeroFisica,
