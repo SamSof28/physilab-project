@@ -1,5 +1,5 @@
-site_name: PhysiLab
-site_description: Cuaderno de laboratorio digital para ensayos de cinematica con CLI en Python.
+site_name: PhysiLab - Laboratorio Digital
+site_description: Plataforma web modular para registrar y analizar ensayos de movimiento rectilíneo con FastAPI, Streamlit y Supabase.
 site_url: https://samsof28.github.io/physilab-project/
 repo_url: https://github.com/SamSof28/physilab-project
 repo_name: SamSof28/physilab-project
@@ -42,9 +42,10 @@ nav:
   - Inicio: index.md
   - Primeros pasos: getting-started.md
   - Guía de usuario:
-    - Comandos CLI: user-guide/commands.md
+    - API REST: user-guide/commands.md
     - Persistencia: user-guide/persistence.md
   - Arquitectura: architecture.md
+  - Desarrollo: development.md
   - Referencia: reference.md
 
 markdown_extensions:
