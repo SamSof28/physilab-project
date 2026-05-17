@@ -42,20 +42,21 @@ class PhysicsService:
 
     def resolver_y_guardar_mrua(self, nombre: str, m: MRUASchema):
         # 1. Lógica de resolución MRUA
-        # (Nota: Aseguramos que existan datos suficientes antes de calcular)
         if m.aceleracion is None and m.tiempo is not None:
             m.aceleracion = (m.velocidad_final - m.velocidad_inicial) / m.tiempo
         
         if m.posicion_final is None and m.tiempo is not None:
             m.posicion_final = m.posicion_inicial + (m.velocidad_inicial * m.tiempo) + (0.5 * m.aceleracion * m.tiempo**2)
             
-        if m.velocidad_final is None and m.aceleracion is not None:
+        if m.velocidad_final is None and m.aceleracion is not None and m.tiempo is not None:
             m.velocidad_final = m.velocidad_inicial + (m.aceleracion * m.tiempo)
             
         if m.tiempo is None:
             m.tiempo = self._resolver_tiempo_cuadratico(m.aceleracion, m.velocidad_inicial, m.posicion_inicial, m.posicion_final)
+            if m.velocidad_final is None and m.aceleracion is not None:
+                m.velocidad_final = m.velocidad_inicial + (m.aceleracion * m.tiempo)
 
-        # 2. ALINEACIÓN: Crear contrato maestro para MRUA
+        # 2. Crear contrato maestro para MRUA
         exp_maestro = ExperimentCreate(nombre=nombre, tipo="MRUA")
 
         # 3. Guardar

@@ -1,4 +1,4 @@
-from src.mi_app.cli import app
+from src.app import main
 import os
 from dotenv import load_dotenv
 from supabase import create_client, Client
@@ -14,4 +14,4 @@ def consultar_datos():
     response = supabase.table()
 
 if __name__ == "__main__":
-    app()
+    main()
