@@ -10,7 +10,8 @@ class PhysicsService:
         self.repository = ExperimentRepository()
 
     def _division_segura(self, num: float, den: float, magnitud: str) -> float:
-        if den == 0: raise ErrorDivisionPorCeroFisica(magnitud)
+        if den == 0: 
+            raise ErrorDivisionPorCeroFisica(magnitud)
         return num / den
 
     def resolver_y_guardar_mru(self, nombre: str, datos: MRUSchema):
