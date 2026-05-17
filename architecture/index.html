@@ -1,0 +1,1384 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Plataforma web modular para registrar y analizar ensayos de movimiento rectilíneo con FastAPI, Streamlit y Supabase.">
+      
+      
+      
+        <link rel="canonical" href="https://samsof28.github.io/physilab-project/architecture/">
+      
+      
+        <link rel="prev" href="../user-guide/persistence/">
+      
+      
+        <link rel="next" href="../development/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Arquitectura - PhysiLab - Laboratorio Digital</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arquitectura" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="PhysiLab - Laboratorio Digital" class="md-header__button md-logo" aria-label="PhysiLab - Laboratorio Digital" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PhysiLab - Laboratorio Digital
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Arquitectura
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SamSof28/physilab-project" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SamSof28/physilab-project
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PhysiLab - Laboratorio Digital" class="md-nav__button md-logo" aria-label="PhysiLab - Laboratorio Digital" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PhysiLab - Laboratorio Digital
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SamSof28/physilab-project" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SamSof28/physilab-project
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Primeros pasos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guía de usuario
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guía de usuario
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API REST
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#principios-de-diseno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Principios de diseño
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-del-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📂 Estructura del código
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diseno-en-capas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Diseño en capas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Diseño en capas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-presentacion-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de Presentación (Frontend)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-api-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de API (FastAPI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-logica-de-negocio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de Lógica de Negocio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-persistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de Persistencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de Datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-de-operacion-tipica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Flujo de operación típica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Flujo de operación típica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-usuario-registra-un-mru-desde-streamlit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Usuario registra un MRU desde Streamlit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manejo-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ Manejo de errores
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escalabilidad-futura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Escalabilidad futura
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Escalabilidad futura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agregar-modelo-fisico-ej-fuerzas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agregar modelo físico (ej: Fuerzas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migrar-persistencia-ej-mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migrar persistencia (ej: MongoDB)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencias-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Dependencias principales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-de-relaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Resumen de relaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desarrollo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#principios-de-diseno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Principios de diseño
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-del-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📂 Estructura del código
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diseno-en-capas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Diseño en capas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Diseño en capas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-presentacion-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de Presentación (Frontend)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-api-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de API (FastAPI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-logica-de-negocio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de Lógica de Negocio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-persistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de Persistencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capa-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capa de Datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-de-operacion-tipica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Flujo de operación típica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Flujo de operación típica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-usuario-registra-un-mru-desde-streamlit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Usuario registra un MRU desde Streamlit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manejo-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ Manejo de errores
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escalabilidad-futura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Escalabilidad futura
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Escalabilidad futura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agregar-modelo-fisico-ej-fuerzas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agregar modelo físico (ej: Fuerzas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migrar-persistencia-ej-mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migrar persistencia (ej: MongoDB)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencias-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Dependencias principales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-de-relaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔗 Resumen de relaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="arquitectura">Arquitectura</h1>
+<p>Esta sección explica cómo está organizado PhysiLab, por qué cada componente existe y cómo interactúan entre sí.</p>
+<hr />
+<h2 id="principios-de-diseno">🎯 Principios de diseño</h2>
+<ol>
+<li><strong>Separación de responsabilidades</strong>: Cada capa maneja una concern específica.</li>
+<li><strong>Bajo acoplamiento</strong>: Las capas se comunican mediante interfaces definidas.</li>
+<li><strong>Escalabilidad</strong>: Agregar nuevos modelos físicos no rompe el flujo existente.</li>
+<li><strong>Validación temprana</strong>: Los errores se detectan lo antes posible.</li>
+<li><strong>Persistencia agnóstica</strong>: El código de física no depende de Supabase.</li>
+</ol>
+<hr />
+<h2 id="estructura-del-codigo">📂 Estructura del código</h2>
+<p>El proyecto usa la estructura <code>src/</code> para garantizar importaciones limpias y escalabilidad:</p>
+<div class="highlight"><pre><span></span><code>src/
+├── app/                    # 🎨 Frontend (Streamlit)
+│   ├── main.py             # Página de inicio
+│   └── pages/              # Páginas de análisis (analisis.py, ensayos.py, mru.py)
+│
+├── api/                    # ⚡ API REST (FastAPI)
+│   ├── main.py             # Aplicación FastAPI y CORS
+│   ├── routers/
+│   │   └── experiments.py   # Endpoints CRUD para experimentos
+│   └── dependencies.py      # Inyección de dependencias
+│
+├── services/               # 🔬 Lógica de física y reglas de negocio
+│   └── physics_service.py   # Cálculos MRU/MRUA y orquestación
+│
+├── storage/                # 💾 Acceso a datos (Supabase)
+│   ├── base.py             # BaseRepository con cliente Supabase
+│   └── experiment_repository.py  # CRUD de experimentos
+│
+├── schemas/                # 📋 Validación y serialización (Pydantic)
+│   ├── experiment.py       # ExperimentCreate, ExperimentResponse
+│   ├── mru.py              # MRUSchema
+│   └── mrua.py             # MRUASchema
+│
+└── core/                   # ⚙️ Configuración y excepciones
+    ├── config.py           # Variables de entorno (Supabase, FastAPI)
+    └── exceptions.py       # Excepciones de dominio personalizadas
+</code></pre></div>
+<p><strong>Ventajas de la estructura <code>src/</code>:</strong>
+- Previene importaciones accidentales de archivos raíz.
+- Facilita la distribución como paquete.
+- Mejora la claridad en desarrollo e CI/CD.</p>
+<hr />
+<h2 id="diseno-en-capas">🏗️ Diseño en capas</h2>
+<pre class="mermaid"><code>graph TB
+    subgraph "Presentación"
+        Streamlit["🎨 Streamlit&lt;br/&gt;Frontend"]
+    end
+
+    subgraph "API"
+        FastAPI["⚡ FastAPI&lt;br/&gt;Routers"]
+    end
+
+    subgraph "Lógica de Negocio"
+        Service["🔬 PhysicsService&lt;br/&gt;Resolución MRU/MRUA"]
+    end
+
+    subgraph "Persistencia"
+        Repo["💾 ExperimentRepository&lt;br/&gt;CRUD Supabase"]
+    end
+
+    subgraph "Datos"
+        DB[("📦 Supabase&lt;br/&gt;PostgreSQL")]
+    end
+
+    Streamlit --&gt;|HTTP| FastAPI
+    FastAPI --&gt;|Dependencies| Service
+    Service --&gt;|Injected| Repo
+    Repo --&gt;|Queries| DB</code></pre>
+<h3 id="capa-de-presentacion-frontend">Capa de Presentación (Frontend)</h3>
+<p><strong>Componentes</strong>: Streamlit<br />
+<strong>Ubicación</strong>: <code>src/app/</code></p>
+<p>Responsabilidades:
+- Capturar entrada del usuario (formularios, validación UI).
+- Invocar la API REST mediante HTTP.
+- Mostrar resultados con visualizaciones interactivas.
+- Gestionar estado de sesión del usuario.</p>
+<p><strong>Páginas</strong>:
+- <code>main.py</code>: Página de inicio con métricas del proyecto.
+- <code>pages/mru.py</code>: Formulario para registrar MRU.
+- <code>pages/ensayos.py</code>: Listado y gestión de experimentos.
+- <code>pages/analisis.py</code>: Análisis gráfico de resultados.</p>
+<div class="admonition info">
+<p class="admonition-title">Independencia</p>
+<p>Streamlit no conoce detalles de Supabase o la lógica física. Solo consume la API.</p>
+</div>
+<hr />
+<h3 id="capa-de-api-fastapi">Capa de API (FastAPI)</h3>
+<p><strong>Ubicación</strong>: <code>src/api/</code></p>
+<p>Responsabilidades:
+- Exponer endpoints REST con validación automática.
+- Convertir requests HTTP a objetos de dominio.
+- Inyectar dependencias (PhysicsService, repositorios).
+- Manejar errores y convertirlos a respuestas HTTP.
+- Documentación automática con OpenAPI (Swagger).</p>
+<p><strong>Endpoints principales</strong> (<code>src/api/routers/experiments.py</code>):
+<div class="highlight"><pre><span></span><code>POST   /experiments/calculate/mru    → Crear y guardar MRU
+POST   /experiments/calculate/mrua   → Crear y guardar MRUA
+GET    /experiments                   → Listar todos
+GET    /experiments/{id}              → Obtener detalles
+DELETE /experiments/{id}              → Eliminar
+</code></pre></div></p>
+<p><strong>CORS</strong>: Configurado para aceptar requests desde Streamlit (localhost:8501).</p>
+<div class="admonition tip">
+<p class="admonition-title">Inyección de dependencias</p>
+<p>FastAPI inyecta <code>PhysicsService</code> automáticamente en cada endpoint, garantizando instancias únicas.</p>
+</div>
+<hr />
+<h3 id="capa-de-logica-de-negocio">Capa de Lógica de Negocio</h3>
+<p><strong>Componentes</strong>: <code>PhysicsService</code><br />
+<strong>Ubicación</strong>: <code>src/services/physics_service.py</code></p>
+<p>Responsabilidades:
+- <strong>Cálculos físicos</strong>: Resuelve variables faltantes en MRU y MRUA.
+- <strong>Orquestación</strong>: Coordina entre API, esquemas y repositorio.
+- <strong>Validación de dominio</strong>: Detecta inconsistencias en datos físicos.
+- <strong>Manejo de excepciones</strong>: Lanza excepciones tipadas para errores específicos.</p>
+<p><strong>Métodos principales</strong>:
+<div class="highlight"><pre><span></span><code><span class="n">resolver_y_guardar_mru</span><span class="p">(</span><span class="n">nombre</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datos</span><span class="p">:</span> <span class="n">MRUSchema</span><span class="p">)</span>
+<span class="n">resolver_y_guardar_mrua</span><span class="p">(</span><span class="n">nombre</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datos</span><span class="p">:</span> <span class="n">MRUASchema</span><span class="p">)</span>
+<span class="n">list_all</span><span class="p">()</span>
+<span class="n">get_one</span><span class="p">(</span><span class="n">exp_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span>
+<span class="n">remove_one</span><span class="p">(</span><span class="n">exp_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Ejemplo: Resolución MRU</strong>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">datos</span><span class="o">.</span><span class="n">distancia</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">datos</span><span class="o">.</span><span class="n">distancia</span> <span class="o">=</span> <span class="n">datos</span><span class="o">.</span><span class="n">velocidad</span> <span class="o">*</span> <span class="n">datos</span><span class="o">.</span><span class="n">tiempo</span>
+<span class="k">elif</span> <span class="n">datos</span><span class="o">.</span><span class="n">tiempo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">datos</span><span class="o">.</span><span class="n">tiempo</span> <span class="o">=</span> <span class="n">datos</span><span class="o">.</span><span class="n">distancia</span> <span class="o">/</span> <span class="n">datos</span><span class="o">.</span><span class="n">velocidad</span>  <span class="c1"># Con validación</span>
+<span class="k">elif</span> <span class="n">datos</span><span class="o">.</span><span class="n">velocidad</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">datos</span><span class="o">.</span><span class="n">velocidad</span> <span class="o">=</span> <span class="n">datos</span><span class="o">.</span><span class="n">distancia</span> <span class="o">/</span> <span class="n">datos</span><span class="o">.</span><span class="n">tiempo</span>
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Responsabilidad única</p>
+<p>El servicio resuelve física, NO maneja HTTP o SQL directamente.</p>
+</div>
+<hr />
+<h3 id="capa-de-persistencia">Capa de Persistencia</h3>
+<p><strong>Componentes</strong>: <code>ExperimentRepository</code> (hereda de <code>BaseRepository</code>)<br />
+<strong>Ubicación</strong>: <code>src/storage/</code></p>
+<p><strong>BaseRepository</strong> (<code>base.py</code>):
+- Inicializa cliente Supabase singleton.
+- Maneja conexión y errores de DB.
+- Define métodos base para CRUD.</p>
+<p><strong>ExperimentRepository</strong> (<code>experiment_repository.py</code>):
+- Implementa métodos específicos para <code>experiments</code> table.
+- Convierte objetos Pydantic a registros SQL.
+- Reconstruye modelos desde resultados de DB.</p>
+<p><strong>Métodos</strong>:
+<div class="highlight"><pre><span></span><code><span class="n">create_mru_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">:</span> <span class="n">ExperimentCreate</span><span class="p">,</span> <span class="n">physics_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span>
+<span class="n">create_mrua_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">:</span> <span class="n">ExperimentCreate</span><span class="p">,</span> <span class="n">physics_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span>
+<span class="n">get_all</span><span class="p">()</span> <span class="err">→</span> <span class="n">List</span><span class="p">[</span><span class="n">ExperimentResponse</span><span class="p">]</span>
+<span class="n">get_by_id</span><span class="p">(</span><span class="n">exp_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="err">→</span> <span class="n">ExperimentResponse</span>
+<span class="n">delete</span><span class="p">(</span><span class="n">exp_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="err">→</span> <span class="nb">bool</span>
+</code></pre></div></p>
+<div class="admonition info">
+<p class="admonition-title">Supabase</p>
+<p>Usa PostgreSQL como motor. Las tablas son sincronizadas mediante migrations (versión futuro).</p>
+</div>
+<hr />
+<h3 id="capa-de-datos">Capa de Datos</h3>
+<p><strong>Sistema</strong>: Supabase PostgreSQL</p>
+<p><strong>Tablas principales</strong>:
+<div class="highlight"><pre><span></span><code><span class="n">experiments</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nombre</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+<span class="w">    </span><span class="n">tipo</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="w">  </span><span class="c1">-- &#39;MRU&#39; o &#39;MRUA&#39;</span>
+<span class="w">    </span><span class="n">fecha_creacion</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="p">,</span>
+<span class="w">    </span><span class="c1">-- Datos específicos por tipo</span>
+<span class="p">)</span>
+
+<span class="n">experiments_mru</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">experiments</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="n">velocidad</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">tiempo</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">distancia</span><span class="w"> </span><span class="nb">FLOAT</span>
+<span class="p">)</span>
+
+<span class="n">experiments_mrua</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">experiments</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+<span class="w">    </span><span class="n">aceleracion</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">velocidad_inicial</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">velocidad_final</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">posicion_inicial</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">posicion_final</span><span class="w"> </span><span class="nb">FLOAT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">tiempo</span><span class="w"> </span><span class="nb">FLOAT</span>
+<span class="p">)</span>
+</code></pre></div></p>
+<div class="admonition info">
+<p class="admonition-title">Normalización</p>
+<p>Las tablas de física están normalizadas para escalabilidad y claridad.</p>
+</div>
+<hr />
+<h2 id="flujo-de-operacion-tipica">🔄 Flujo de operación típica</h2>
+<h3 id="1-usuario-registra-un-mru-desde-streamlit">1. Usuario registra un MRU desde Streamlit</h3>
+<div class="highlight"><pre><span></span><code>┌─────────────────────────────────────────────────┐
+│ Usuario ingresa: v=10 m/s, t=5 s                │
+│ Nombre: &quot;Ensayo de caída libre&quot;                 │
+└─────────────────────────────────────────────────┘
+            ↓
+┌─────────────────────────────────────────────────┐
+│ Streamlit valida entrada (UI básica)            │
+│ Construye JSON:                                 │
+│ {nombre, datos: {velocidad, tiempo}}            │
+└─────────────────────────────────────────────────┘
+            ↓ HTTP POST
+┌─────────────────────────────────────────────────┐
+│ FastAPI (POST /experiments/calculate/mru)       │
+│ Deserializa entrada → MRUSchema                 │
+│ Crea instancia PhysicsService                   │
+└─────────────────────────────────────────────────┘
+            ↓ método
+┌─────────────────────────────────────────────────┐
+│ PhysicsService.resolver_y_guardar_mru()         │
+│ • Calcula: distancia = 10 × 5 = 50 m           │
+│ • Valida que no hay división por cero           │
+│ • Inyecta repository                            │
+└─────────────────────────────────────────────────┘
+            ↓ INSERT
+┌─────────────────────────────────────────────────┐
+│ Repository.create_mru_experiment()              │
+│ Inserta en tables experiments + experiments_mru │
+│ Retorna ID = 1, fecha_creacion = NOW()          │
+└─────────────────────────────────────────────────┘
+            ↓ JSON
+┌─────────────────────────────────────────────────┐
+│ Resultado retorna al navegador:                 │
+│ {id, nombre, tipo, fecha_creacion, distancia}   │
+└─────────────────────────────────────────────────┘
+            ↓
+┌─────────────────────────────────────────────────┐
+│ Streamlit renderiza resultado con Plotly        │
+│ Muestra: ✅ &quot;Ensayo guardado: 50 m calculados&quot;  │
+└─────────────────────────────────────────────────┘
+</code></pre></div>
+<hr />
+<h2 id="manejo-de-errores">🛡️ Manejo de errores</h2>
+<p>Las excepciones están organizadas por tipo en <code>src/core/exceptions.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">AppError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">)</span>                    <span class="c1"># Base</span>
+    <span class="err">├──</span> <span class="n">NotFoundError</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>         <span class="c1"># 404</span>
+    <span class="err">├──</span> <span class="n">DuplicateError</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>     <span class="c1"># 409</span>
+    <span class="err">├──</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>            <span class="c1"># 422</span>
+    <span class="err">├──</span> <span class="n">StorageError</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">detail</span><span class="p">)</span>     <span class="c1"># 502</span>
+    <span class="err">└──</span> <span class="p">[</span><span class="n">Excepciones</span> <span class="n">físicas</span><span class="p">]</span>
+        <span class="err">├──</span> <span class="n">ErrorDivisionPorCeroFisica</span>      <span class="c1"># División por 0</span>
+        <span class="err">└──</span> <span class="n">ErrorDiscriminanteNegativo</span>      <span class="c1"># Discriminante &lt; 0</span>
+</code></pre></div>
+<p>Los routers capturan estas excepciones y las convierten en respuestas HTTP:
+- <code>AppError</code> → 400 Bad Request
+- <code>NotFoundError</code> → 404 Not Found
+- <code>StorageError</code> → 502 Bad Gateway</p>
+<hr />
+<h2 id="escalabilidad-futura">🚀 Escalabilidad futura</h2>
+<p>La arquitectura está diseñada para crecer:</p>
+<h3 id="agregar-modelo-fisico-ej-fuerzas">Agregar modelo físico (ej: Fuerzas)</h3>
+<ol>
+<li>Crear <code>src/schemas/fuerza.py</code> con <code>FuerzaSchema</code>.</li>
+<li>Agregar método <code>resolver_y_guardar_fuerza()</code> en <code>PhysicsService</code>.</li>
+<li>Crear endpoint <code>POST /experiments/calculate/fuerza</code> en router.</li>
+<li>Extender tabla Supabase con <code>experiments_fuerza</code>.</li>
+<li>Crear página Streamlit <code>pages/fuerza.py</code>.</li>
+</ol>
+<p><strong>Nada rompe en el código existente.</strong></p>
+<h3 id="migrar-persistencia-ej-mongodb">Migrar persistencia (ej: MongoDB)</h3>
+<ol>
+<li>Crear <code>MongoRepository</code> heredando de <code>BaseRepository</code>.</li>
+<li>Reemplazar inyección de dependencias en FastAPI.</li>
+<li>Implementar métodos CRUD para MongoDB.</li>
+</ol>
+<p><strong>PhysicsService y FastAPI permanecen intactos.</strong></p>
+<hr />
+<h2 id="dependencias-principales">📊 Dependencias principales</h2>
+<table>
+<thead>
+<tr>
+<th>Librería</th>
+<th>Capa</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pydantic</strong></td>
+<td>Schemas</td>
+<td>Validación y serialización JSON</td>
+</tr>
+<tr>
+<td><strong>FastAPI</strong></td>
+<td>API</td>
+<td>Framework REST</td>
+</tr>
+<tr>
+<td><strong>Streamlit</strong></td>
+<td>Frontend</td>
+<td>Interfaz web interactiva</td>
+</tr>
+<tr>
+<td><strong>Supabase</strong></td>
+<td>Storage</td>
+<td>Cliente PostgreSQL</td>
+</tr>
+<tr>
+<td><strong>NumPy</strong></td>
+<td>Services</td>
+<td>Cálculos matemáticos</td>
+</tr>
+<tr>
+<td><strong>Plotly</strong></td>
+<td>Frontend</td>
+<td>Visualizaciones gráficas</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="resumen-de-relaciones">🔗 Resumen de relaciones</h2>
+<div class="highlight"><pre><span></span><code>┌──────────────────────────────────────────────────────────┐
+│                      DEPENDENCIES                         │
+├──────────────────────────────────────────────────────────┤
+│ API Router                                               │
+│   ↓ inyecta                                              │
+│ PhysicsService                                           │
+│   ↓ contrata                                             │
+│ ExperimentRepository                                     │
+│   ↓ hereda de                                            │
+│ BaseRepository                                           │
+│   ↓ usa                                                  │
+│ Supabase Client                                          │
+│   ↓ conecta a                                            │
+│ PostgreSQL (experiments, experiments_mru, experiments_mrua) │
+└──────────────────────────────────────────────────────────┘
+</code></pre></div>
+<div class="admonition success">
+<p class="admonition-title">Resultado</p>
+<p>Una arquitectura modular, testeable y escalable que permite experimentación rápida y mantenimiento a largo plazo.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.expand", "navigation.sections", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1682 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Plataforma web modular para registrar y analizar ensayos de movimiento rectilíneo con FastAPI, Streamlit y Supabase.">
+      
+      
+      
+        <link rel="canonical" href="https://samsof28.github.io/physilab-project/user-guide/persistence/">
+      
+      
+        <link rel="prev" href="../commands/">
+      
+      
+        <link rel="next" href="../../architecture/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Persistencia - PhysiLab - Laboratorio Digital</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#persistencia-de-datos" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="PhysiLab - Laboratorio Digital" class="md-header__button md-logo" aria-label="PhysiLab - Laboratorio Digital" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PhysiLab - Laboratorio Digital
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Persistencia
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SamSof28/physilab-project" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SamSof28/physilab-project
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PhysiLab - Laboratorio Digital" class="md-nav__button md-logo" aria-label="PhysiLab - Laboratorio Digital" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PhysiLab - Laboratorio Digital
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SamSof28/physilab-project" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SamSof28/physilab-project
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Primeros pasos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guía de usuario
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guía de usuario
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API REST
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistencia
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Estructura de base de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Estructura de base de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments-maestra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments (Maestra)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments_mru-especializada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments_mru (Especializada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments_mrua-especializada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments_mrua (Especializada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-de-persistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Flujo de persistencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crear-experimento-insert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📤 Crear experimento (INSERT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📤 Crear experimento (INSERT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desde-la-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desde la API
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#leer-experimentos-select" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Leer experimentos (SELECT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📖 Leer experimentos (SELECT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listar-todos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listar todos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obtener-uno-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Obtener uno específico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizar-experimento-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Actualizar experimento (UPDATE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eliminar-experimento-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗑️ Eliminar experimento (DELETE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🗑️ Eliminar experimento (DELETE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consulta-sql-con-cascada-automatica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consulta SQL (con cascada automática)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion-de-supabase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 Configuración de Supabase
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Configuración de Supabase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-de-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables de entorno
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obtener-credenciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Obtener credenciales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politicas-de-row-level-security-rls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Políticas de Row Level Security (RLS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Buenas prácticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Buenas prácticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-backups-regulares" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Backups regulares
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-monitoreo-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Monitoreo de eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-validacion-en-origen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Validación en origen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-logging-de-operaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Logging de operaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estadisticas-de-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Estadísticas de uso
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escalabilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Escalabilidad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Escalabilidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#indices-en-produccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Índices (en producción)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#particionamiento-para-1m-registros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Particionamiento (para 1M+ registros)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#replicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replicación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desarrollo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Estructura de base de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏗️ Estructura de base de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments-maestra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments (Maestra)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments_mru-especializada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments_mru (Especializada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments_mrua-especializada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments_mrua (Especializada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flujo-de-persistencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Flujo de persistencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crear-experimento-insert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📤 Crear experimento (INSERT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📤 Crear experimento (INSERT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desde-la-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desde la API
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#leer-experimentos-select" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 Leer experimentos (SELECT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📖 Leer experimentos (SELECT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listar-todos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listar todos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obtener-uno-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Obtener uno específico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actualizar-experimento-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Actualizar experimento (UPDATE)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eliminar-experimento-delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗑️ Eliminar experimento (DELETE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🗑️ Eliminar experimento (DELETE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consulta-sql-con-cascada-automatica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consulta SQL (con cascada automática)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion-de-supabase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 Configuración de Supabase
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔐 Configuración de Supabase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-de-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables de entorno
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obtener-credenciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Obtener credenciales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politicas-de-row-level-security-rls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Políticas de Row Level Security (RLS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Buenas prácticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Buenas prácticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-backups-regulares" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Backups regulares
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-monitoreo-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Monitoreo de eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-validacion-en-origen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Validación en origen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-logging-de-operaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Logging de operaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estadisticas-de-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Estadísticas de uso
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escalabilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Escalabilidad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Escalabilidad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#indices-en-produccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Índices (en producción)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#particionamiento-para-1m-registros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Particionamiento (para 1M+ registros)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#replicacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replicación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="persistencia-de-datos">Persistencia de datos</h1>
+<p>PhysiLab guarda automáticamente los experimentos en <strong>Supabase PostgreSQL</strong> para garantizar persistencia, sincronización en tiempo real y acceso multiusuario.</p>
+<hr />
+<h2 id="estructura-de-base-de-datos">🏗️ Estructura de base de datos</h2>
+<h3 id="tabla-experiments-maestra">Tabla: <code>experiments</code> (Maestra)</h3>
+<p>Contiene información general de todos los experimentos.</p>
+<div class="highlight"><pre><span></span><code><span class="n">experiments</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">nombre</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">tipo</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">           </span><span class="c1">-- &#39;MRU&#39; o &#39;MRUA&#39;</span>
+<span class="w">  </span><span class="n">fecha_creacion</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">NOW</span><span class="p">(),</span>
+<span class="w">  </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">NOW</span><span class="p">(),</span>
+<span class="w">  </span><span class="n">updated_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="tabla-experiments_mru-especializada">Tabla: <code>experiments_mru</code> (Especializada)</h3>
+<p>Almacena datos específicos para experimentos MRU.</p>
+<div class="highlight"><pre><span></span><code><span class="n">experiments_mru</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">experiments</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">velocidad</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">tiempo</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">distancia</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="tabla-experiments_mrua-especializada">Tabla: <code>experiments_mrua</code> (Especializada)</h3>
+<p>Almacena datos específicos para experimentos MRUA.</p>
+<div class="highlight"><pre><span></span><code><span class="n">experiments_mrua</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">experiments</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">aceleracion</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">velocidad_inicial</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">velocidad_final</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">posicion_inicial</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">posicion_final</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">tiempo</span><span class="w"> </span><span class="nb">FLOAT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="p">)</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Diseño normalizado</p>
+<p>Esta estructura evita redundancia y facilita las consultas específicas de cada tipo de experimento.</p>
+</div>
+<hr />
+<h2 id="flujo-de-persistencia">🔄 Flujo de persistencia</h2>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User as Usuario
+    participant Streamlit as Streamlit&lt;br/&gt;Frontend
+    participant API as FastAPI&lt;br/&gt;API
+    participant Service as PhysicsService
+    participant Repo as Repository
+    participant Supabase as Supabase&lt;br/&gt;PostgreSQL
+
+    User-&gt;&gt;Streamlit: Ingresa datos MRU
+    Streamlit-&gt;&gt;API: POST /calculate/mru
+    API-&gt;&gt;Service: resolver_y_guardar_mru()
+    Service-&gt;&gt;Service: Calcula variable faltante
+    Service-&gt;&gt;Repo: create_mru_experiment()
+    Repo-&gt;&gt;Supabase: INSERT INTO experiments&lt;br/&gt;INSERT INTO experiments_mru
+    Supabase--&gt;&gt;Repo: {id, fecha_creacion}
+    Repo--&gt;&gt;Service: Confirmación
+    Service--&gt;&gt;API: ExperimentResponse
+    API--&gt;&gt;Streamlit: JSON con resultado
+    Streamlit--&gt;&gt;User: ✅ "Experimento guardado"</code></pre>
+<hr />
+<h2 id="crear-experimento-insert">📤 Crear experimento (INSERT)</h2>
+<h3 id="desde-la-api">Desde la API</h3>
+<p><strong>Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/experiments/calculate/mru&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;nombre&quot;: &quot;Caída libre&quot;,</span>
+<span class="s1">    &quot;datos&quot;: {</span>
+<span class="s1">      &quot;velocidad&quot;: 10,</span>
+<span class="s1">      &quot;tiempo&quot;: 5</span>
+<span class="s1">    }</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div></p>
+<p><strong>En base de datos:</strong></p>
+<p>Tabla <code>experiments</code>:
+<div class="highlight"><pre><span></span><code>| id | nombre      | tipo | fecha_creacion        |
+|----|-------------|------|----------------------|
+| 1  | Caída libre | MRU  | 2026-05-17 10:30:00  |
+</code></pre></div></p>
+<p>Tabla <code>experiments_mru</code>:
+<div class="highlight"><pre><span></span><code>| id | velocidad | tiempo | distancia |
+|----|-----------|--------|-----------|
+| 1  | 10.0      | 5.0    | 50.0      |
+</code></pre></div></p>
+<hr />
+<h2 id="leer-experimentos-select">📖 Leer experimentos (SELECT)</h2>
+<h3 id="listar-todos">Listar todos</h3>
+<p><strong>Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://localhost:8000/experiments&quot;</span>
+</code></pre></div></p>
+<p><strong>Consulta SQL interna:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="o">*</span><span class="p">,</span><span class="w"> </span>
+<span class="w">       </span><span class="k">CASE</span><span class="w"> </span>
+<span class="w">         </span><span class="k">WHEN</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">tipo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;MRU&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">row_to_json</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="o">*</span><span class="p">)</span>
+<span class="w">         </span><span class="k">WHEN</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">tipo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;MRUA&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">row_to_json</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="o">*</span><span class="p">)</span>
+<span class="w">       </span><span class="k">END</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">physics_data</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiments</span><span class="w"> </span><span class="n">e</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">experiments_mru</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">id</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">experiments_mrua</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">id</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">fecha_creacion</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div></p>
+<h3 id="obtener-uno-especifico">Obtener uno específico</h3>
+<p><strong>Request:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;http://localhost:8000/experiments/1&quot;</span>
+</code></pre></div></p>
+<p><strong>Consulta SQL:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiments</span><span class="w"> </span><span class="n">e</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">experiments_mru</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div></p>
+<p><strong>Response:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nombre&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Caída libre&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tipo&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MRU&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;fecha_creacion&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-17T10:30:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;velocidad&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tiempo&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;distancia&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h2 id="actualizar-experimento-update">🔄 Actualizar experimento (UPDATE)</h2>
+<p>Actualmente, PhysiLab <strong>no permite actualizaciones</strong>. Para corregir un experimento:</p>
+<ol>
+<li><strong>Elimina</strong> el experimento incorrecto: <code>DELETE /experiments/{id}</code></li>
+<li><strong>Crea uno nuevo</strong> con los datos correctos: <code>POST /calculate/mru</code></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Auditoría</p>
+<p>Esta política preserva la trazabilidad de cambios. En futuras versiones, se agregará historial de modificaciones.</p>
+</div>
+<hr />
+<h2 id="eliminar-experimento-delete">🗑️ Eliminar experimento (DELETE)</h2>
+<h3 id="endpoint">Endpoint</h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="s2">&quot;http://localhost:8000/experiments/1&quot;</span>
+</code></pre></div>
+<h3 id="consulta-sql-con-cascada-automatica">Consulta SQL (con cascada automática)</h3>
+<div class="highlight"><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">experiments</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="c1">-- Elimina automáticamente de experiments_mru y experiments_mrua</span>
+<span class="c1">-- gracias a ON DELETE CASCADE</span>
+</code></pre></div>
+<h3 id="response">Response</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Experimento 1 eliminado exitosamente.&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Irreversible</p>
+<p>El borrado es permanente. No hay papelera de reciclaje.</p>
+</div>
+<hr />
+<h2 id="configuracion-de-supabase">🔐 Configuración de Supabase</h2>
+<h3 id="variables-de-entorno">Variables de entorno</h3>
+<p>En <code>.env</code>:
+<div class="highlight"><pre><span></span><code>SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_KEY=your-anon-key
+</code></pre></div></p>
+<h3 id="obtener-credenciales">Obtener credenciales</h3>
+<ol>
+<li>Crea un proyecto en <a href="https://supabase.com">supabase.com</a></li>
+<li>Ve a <strong>Settings → API</strong></li>
+<li>Copia:</li>
+<li><code>URL</code> → <code>SUPABASE_URL</code></li>
+<li><code>anon public</code> key → <code>SUPABASE_KEY</code></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Seguridad</p>
+<p>Usa un <code>.env</code> local, nunca versiones credenciales en Git.</p>
+</div>
+<h3 id="politicas-de-row-level-security-rls">Políticas de Row Level Security (RLS)</h3>
+<p>Por defecto, Supabase requiere políticas RLS. Para desarrollo:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">-- Permitir todos los SELECT</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="n">POLICY</span><span class="w"> </span><span class="ss">&quot;Allow read all&quot;</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">experiments</span>
+<span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+
+<span class="c1">-- Permitir INSERT solo con autenticación</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="n">POLICY</span><span class="w"> </span><span class="ss">&quot;Allow insert authenticated&quot;</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">experiments</span>
+<span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">INSERT</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="k">CHECK</span><span class="w"> </span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+
+<span class="c1">-- Permitir DELETE solo con autenticación</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="n">POLICY</span><span class="w"> </span><span class="ss">&quot;Allow delete authenticated&quot;</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">experiments</span>
+<span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+</code></pre></div>
+<hr />
+<h2 id="buenas-practicas">💡 Buenas prácticas</h2>
+<h3 id="1-backups-regulares">1. Backups regulares</h3>
+<p>Supabase mantiene backups automáticos. Para exportar:
+<div class="highlight"><pre><span></span><code><span class="c1"># Usando pg_dump (requiere acceso directo)</span>
+pg_dump<span class="w"> </span><span class="s2">&quot;postgresql://user:password@host/db&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>backup.sql
+</code></pre></div></p>
+<h3 id="2-monitoreo-de-eventos">2. Monitoreo de eventos</h3>
+<p>Suscríbete a cambios en Streamlit:
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
+
+<span class="nd">@st</span><span class="o">.</span><span class="n">cache_resource</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_realtime_listener</span><span class="p">():</span>
+    <span class="c1"># Futura integración de WebSockets para sync en tiempo real</span>
+    <span class="k">pass</span>
+</code></pre></div></p>
+<h3 id="3-validacion-en-origen">3. Validación en origen</h3>
+<p>Siempre valida datos antes de enviar a la API:
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">velocidad</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">tiempo</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Velocidad y tiempo deben ser &gt; 0&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="4-logging-de-operaciones">4. Logging de operaciones</h3>
+<p>El logger interno registra:
+- Experimentos creados (ID, tipo, fecha)
+- Errores de validación
+- Fallos de conexión a Supabase</p>
+<hr />
+<h2 id="estadisticas-de-uso">📊 Estadísticas de uso</h2>
+<p>Para consultar estadísticas:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">-- Total de experimentos</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_experiments</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">experiments</span><span class="p">;</span>
+
+<span class="c1">-- Por tipo</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">tipo</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">cantidad</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiments</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">tipo</span><span class="p">;</span>
+
+<span class="c1">-- Más recientes</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">nombre</span><span class="p">,</span><span class="w"> </span><span class="n">tipo</span><span class="p">,</span><span class="w"> </span><span class="n">fecha_creacion</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiments</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">fecha_creacion</span><span class="w"> </span><span class="k">DESC</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</code></pre></div>
+<hr />
+<h2 id="escalabilidad">🚀 Escalabilidad</h2>
+<h3 id="indices-en-produccion">Índices (en producción)</h3>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_experiments_tipo</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">experiments</span><span class="p">(</span><span class="n">tipo</span><span class="p">);</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_experiments_fecha</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">experiments</span><span class="p">(</span><span class="n">fecha_creacion</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="particionamiento-para-1m-registros">Particionamiento (para 1M+ registros)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">-- Particionar por año</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">experiments_2026</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">OF</span><span class="w"> </span><span class="n">experiments</span>
+<span class="w">  </span><span class="k">FOR</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2026-01-01&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;2027-01-01&#39;</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="replicacion">Replicación</h3>
+<p>Supabase replica automáticamente a múltiples regiones para alta disponibilidad.</p>
+<hr />
+<h2 id="troubleshooting">🔧 Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Connection refused</code></td>
+<td>Verifica <code>SUPABASE_URL</code> y que el proyecto está activo</td>
+</tr>
+<tr>
+<td><code>Unauthorized</code></td>
+<td>Comprueba que <code>SUPABASE_KEY</code> es la clave "anon public"</td>
+</tr>
+<tr>
+<td><code>Table not found</code></td>
+<td>Ejecuta SQL en Supabase para crear <code>experiments</code> tabla</td>
+</tr>
+<tr>
+<td><code>Constraint violation</code></td>
+<td>El ID ya existe (violación de PRIMARY KEY)</td>
+</tr>
+<tr>
+<td><code>Timeout</code></td>
+<td>La red está lenta; intenta nuevamente o aumenta timeout</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Debug</p>
+<p>Activa logs en <code>src/core/config.py</code> con <code>DEBUG=true</code> para ver queries SQL.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
