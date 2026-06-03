@@ -53,3 +53,12 @@ def delete_experiment(id: int, service: PhysicsService = Depends(get_physics_ser
     if not eliminado:
         raise HTTPException(status_code=404, detail=f"No se encontró el experimento {id} para eliminar.")
     return {"message": f"Experimento {id} eliminado exitosamente."}
+
+@router.put("/{id}", status_code=status.HTTP_200_OK)
+def update_experiment_name(id: int, new_name: str, service: PhysicsService = Depends(get_physics_service)):
+    """Actualiza el nombre identificativo de un experimento existente."""
+    actualizado = service.update_experiment_title(id, new_name)
+    if not actualizado:
+        raise HTTPException(status_code=404, detail=f"No se encontro el experimento con id: {id} para actualizar.")
+    
+    return {"message": f"Experimento {id} actualizado correctamente a '{new_name}'."}

@@ -71,3 +71,6 @@ class PhysicsService:
 
     def remove_one(self, exp_id: int) -> bool:
         return self.repository.delete(exp_id)
+    
+    def update_experiment_title(self, exp_id: int, new_name: str) -> bool:
+        return self.repository.update_name(exp_id, new_name)

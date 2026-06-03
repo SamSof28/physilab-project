@@ -73,3 +73,7 @@ class ExperimentRepository(BaseRepository):
     def delete(self, exp_id: int) -> bool:
         response = self.client.table("experimentos").delete().eq("id", exp_id).execute()
         return len(response.data) > 0
+    
+    def update_name(self, exp_id: int, new_name: str) -> bool:
+        response = self.client.table("experimentos").update({"nombre": new_name}).eq("id", exp_id).execute()
+        return len(response.data) > 0
