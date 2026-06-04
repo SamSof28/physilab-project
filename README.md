@@ -33,52 +33,52 @@ El proyecto utiliza una estructura de tipo `src` para garantizar la separación 
 
 ---
 
-## ⚙️ Guía de Instalación y Configuración
+## ⚙️ Instalación y Configuración
 
-Este proyecto requiere [uv](https://docs.astral.sh/uv/) para una gestión eficiente de dependencias y entornos virtuales.
+Este proyecto usa [uv](https://docs.astral.sh/uv/) para administrar dependencias y entorno.
 
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone [https://github.com/SamSof28/physilab-project.git](https://github.com/SamSof28/physilab-project.git)
-    cd physilab-project
-    ```
+1. Clona el repositorio.
+2. Ejecuta `uv sync`.
+3. Crea `.env` a partir de `.env.example` y completa tus credenciales de Supabase.
 
-2.  **Sincronizar el entorno e instalar dependencias:**
-    ```bash
-    uv sync
-    ```
+Variables de entorno requeridas:
 
-3.  **Activar el entorno virtual (opcional):**
-    ```bash
-    source .venv/bin/activate  # En Linux/macOS
-    .venv\Scripts\activate     # En Windows
-    ```
+- `SUPABASE_URL`
+- `SUPABASE_KEY`
+- `API_BASE_URL`
+- `API_TITLE`
+- `API_VERSION`
+- `DEBUG`
 
----
+## Ejecución
 
-## 🖥️ Ejecución del Proyecto
+Backend FastAPI:
 
-Una vez instalado, puedes levantar cada componente principal:
-
-### 1. Ejecutar API (FastAPI)
 ```bash
-uv run fastapi dev src/api/main.py
+uvicorn src.api.main:app --reload
 ```
 
-### 2. Ejecutar frontend (Streamlit)
+Frontend Streamlit:
+
 ```bash
 uv run streamlit run src/app/main.py
 ```
 
-### 3. Configurar backend de datos (Supabase)
-Asegura las variables de entorno del proyecto antes de ejecutar en local o desplegar (por ejemplo, URL y key de Supabase).
+## Pruebas y calidad
 
-## **🧪 Pruebas y Calidad**
-Para ejecutar la suite de pruebas unitarias y verificar la integridad de los cálculos físicos:
-
-```Bash
+```bash
 uv run pytest
+uv run ruff check .
+uv run radon cc src -a
 ```
----
 
-Desarrollado por: Samuel Romaña Acevedo - Estudiante de Ingeniería de Sistemas y Computación Científica.
+## Estructura
+
+- `src/api/`: API REST con FastAPI.
+- `src/app/`: interfaz web en Streamlit.
+- `src/services/`: lógica de negocio.
+- `src/storage/`: repositorios y acceso a Supabase.
+- `src/schemas/`: contratos de datos.
+- `src/core/`: configuración y excepciones.
+
+Desarrollado por: Samuel Romaña Acevedo.

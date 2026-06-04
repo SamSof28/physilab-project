@@ -119,8 +119,8 @@ Responsabilidades:
 
 **Endpoints principales** (`src/api/routers/experiments.py`):
 ```
-POST   /experiments/calculate/mru    → Crear y guardar MRU
-POST   /experiments/calculate/mrua   → Crear y guardar MRUA
+POST   /experiments/calculate/mru    → Crear y guardar MRU (201)
+POST   /experiments/calculate/mrua   → Crear y guardar MRUA (201)
 GET    /experiments                   → Listar todos
 GET    /experiments/{id}              → Obtener detalles
 DELETE /experiments/{id}              → Eliminar
@@ -203,7 +203,7 @@ delete(exp_id: int) → bool
 
 **Tablas principales**:
 ```sql
-experiments (
+experimentos (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100),
     tipo VARCHAR(20),  -- 'MRU' o 'MRUA'
@@ -297,9 +297,10 @@ class AppError(Exception)                    # Base
         └── ErrorDiscriminanteNegativo      # Discriminante < 0
 ```
 
-Los routers capturan estas excepciones y las convierten en respuestas HTTP:
-- `AppError` → 400 Bad Request
+Los handlers globales de FastAPI capturan estas excepciones y las convierten en respuestas HTTP:
 - `NotFoundError` → 404 Not Found
+- `DuplicateError` → 409 Conflict
+- `ValidationError` → 422 Unprocessable Entity
 - `StorageError` → 502 Bad Gateway
 
 ---

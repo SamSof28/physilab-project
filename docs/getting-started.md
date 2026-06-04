@@ -38,7 +38,13 @@ Este comando:
 
 ## 3️⃣ Configurar variables de entorno
 
-Crea un archivo `.env` en la raíz del proyecto:
+Parte de un ejemplo listo para completar:
+
+```bash
+cp .env.example .env
+```
+
+Si prefieres crearlo manualmente, usa este contenido:
 
 ```bash
 touch .env
@@ -84,7 +90,7 @@ Si ves `✅ Proyecto importable`, estás listo.
 En una terminal:
 
 ```bash
-uv run fastapi dev src/api/main.py
+uvicorn src.api.main:app --reload
 ```
 
 Verás:
