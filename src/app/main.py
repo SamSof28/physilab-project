@@ -1,10 +1,11 @@
 import sys
 from pathlib import Path
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
-from src.app.ui import apply_theme, render_hero, render_topbar
 
+from src.app.ui import apply_theme, render_hero, render_topbar # noqa: E402
 import streamlit as st # noqa: E402
 
 st.set_page_config(
