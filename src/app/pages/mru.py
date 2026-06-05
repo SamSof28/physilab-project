@@ -25,7 +25,9 @@ render_hero(
     tag="Cinemática básica",
 )
 
-st.info("Deja en blanco o en 0.0 la magnitud específica que deseas calcular analíticamente.")
+st.info(
+    "Deja en blanco o en 0.0 la magnitud específica que deseas calcular analíticamente."
+)
 
 with st.form("form_mru"):
     nombre = st.text_input("Identificador del Ensayo", value="Ensayo MRU General")
@@ -33,10 +35,12 @@ with st.form("form_mru"):
     with c1:
         distancia = st.number_input("Distancia (m)", min_value=0.0, step=1.0, value=0.0)
     with c2:
-        velocidad = st.number_input("Velocidad (m/s)", min_value=0.0, step=1.0, value=5.0)
+        velocidad = st.number_input(
+            "Velocidad (m/s)", min_value=0.0, step=1.0, value=5.0
+        )
     with c3:
         tiempo = st.number_input("Tiempo (s)", min_value=0.0, step=1.0, value=2.0)
-    
+
     # SOLUCIÓN AL CRASH: Cambiado a st.form_submit_button estándar
     enviar = st.form_submit_button("Calcular y Guardar en Laboratorio")
 
@@ -44,11 +48,16 @@ if enviar:
     payload = {
         "distancia": distancia if distancia > 0 else None,
         "velocidad": velocidad if velocidad > 0 else None,
-        "tiempo": tiempo if tiempo > 0 else None
+        "tiempo": tiempo if tiempo > 0 else None,
     }
-    
+
     try:
-        res = requests.post(f"{BACKEND_URL}/calculate/mru", params={"nombre": nombre}, json=payload, timeout=20)
+        res = requests.post(
+            f"{BACKEND_URL}/calculate/mru",
+            params={"nombre": nombre},
+            json=payload,
+            timeout=20,
+        )
         res.raise_for_status()
         if res.status_code == 201:
             data = res.json()
@@ -63,19 +72,20 @@ if enviar:
             met1.metric("Distancia", f"{distancia:.2f} m")
             met2.metric("Velocidad", f"{velocidad:.2f} m/s")
             met3.metric("Tiempo", f"{tiempo:.2f} s")
-            
+
             tiempos = [t * (tiempo / 10) for t in range(11)]
             posiciones = [velocidad * t for t in tiempos]
-            
+
             fig = px.line(
-                x=tiempos, y=posiciones, 
-                labels={'x': 'Tiempo (segundos)', 'y': 'Posición (metros)'},
+                x=tiempos,
+                y=posiciones,
+                labels={"x": "Tiempo (segundos)", "y": "Posición (metros)"},
                 title=f"Evolución Cinemática Temporal: {nombre}",
-                markers=True
+                markers=True,
             )
             fig.update_traces(line_color="teal", width=3)
             st.plotly_chart(fig, use_container_width=True)
-            
+
             st.json(detalle)
         else:
             st.error(f"Error de validación física: {res.json().get('detail')}")

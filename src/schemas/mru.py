@@ -2,6 +2,7 @@ from pydantic import BaseModel, field_validator
 from typing import Optional
 from src.core.exceptions import ErrorValorNegativo
 
+
 class MRUSchema(BaseModel):
     distancia: Optional[float] = None
     velocidad: Optional[float] = None

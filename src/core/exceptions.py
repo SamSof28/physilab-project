@@ -76,18 +76,23 @@ class StorageError(AppError):
             f"Error de almacenamiento en operacion '{operation}': {detail}"
         )
 
+
 # Heredamos de ValidationError porque son errores de "reglas de negocio"
 class ErrorFisica(ValidationError):
     """Base para errores de cálculo físico."""
+
     pass
+
 
 class ErrorValorNegativo(ErrorFisica):
     def __init__(self, valor: float):
         super().__init__(f"Valor inválido: {valor}. Se esperaba un valor no negativo.")
 
+
 class ErrorDivisionPorCeroFisica(ErrorFisica):
     def __init__(self, magnitud: str):
         super().__init__(f"Imposible calcular '{magnitud}' con divisor cero.")
+
 
 class ErrorDiscriminanteNegativo(ErrorFisica):
     def __init__(self, desc: float):
