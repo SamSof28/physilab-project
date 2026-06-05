@@ -5,6 +5,11 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    env:
+      SUPABASE_URL: https://physilab-mock-project.supabase.co
+      SUPABASE_KEY: mock-api-key-placeholder-for-ci-testing-purposes-123456
+
     steps:
       - uses: actions/checkout@v4
 
@@ -12,6 +17,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           version: "latest"
+          enable-cache: true 
 
       - name: Set up Python
         run: uv python install 3.12
@@ -26,4 +32,4 @@ jobs:
         run: uv run pytest
 
       - name: Check code quality with radon
-        run: uv run radon cc src -a  
+        run: uv run radon cc src -a

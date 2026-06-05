@@ -19,5 +19,4 @@ class Settings(BaseSettings):
     # ── Entorno ───────────────────────────────────────────────────────────────
     debug: bool = True  # Activado para desarrollo
 
-
 settings = Settings()
