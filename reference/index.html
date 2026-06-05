@@ -1,0 +1,1786 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Plataforma web modular para registrar y analizar ensayos de movimiento rectilíneo con FastAPI, Streamlit y Supabase.">
+      
+      
+      
+        <link rel="canonical" href="https://samsof28.github.io/physilab-project/reference/">
+      
+      
+        <link rel="prev" href="../development/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Referencia - PhysiLab - Laboratorio Digital</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#referencia-tecnica" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="PhysiLab - Laboratorio Digital" class="md-header__button md-logo" aria-label="PhysiLab - Laboratorio Digital" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PhysiLab - Laboratorio Digital
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Referencia
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SamSof28/physilab-project" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SamSof28/physilab-project
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PhysiLab - Laboratorio Digital" class="md-nav__button md-logo" aria-label="PhysiLab - Laboratorio Digital" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PhysiLab - Laboratorio Digital
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SamSof28/physilab-project" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SamSof28/physilab-project
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Primeros pasos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guía de usuario
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guía de usuario
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API REST
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desarrollo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencia
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#frontend-streamlit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎨 Frontend (Streamlit)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎨 Frontend (Streamlit)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcionalidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funcionalidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-rest-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ API REST (FastAPI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚡ API REST (FastAPI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoints-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoints principales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentacion-interactiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentación interactiva
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logica-de-fisica-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔬 Lógica de Física (Services)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔬 Lógica de Física (Services)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metodos-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métodos principales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Métodos principales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resolver_y_guardar_mrunombre-str-datos-mruschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resolver_y_guardar_mru(nombre: str, datos: MRUSchema)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolver_y_guardar_mruanombre-str-datos-mruaschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resolver_y_guardar_mrua(nombre: str, datos: MRUASchema)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list_all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list_all()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_oneexp_id-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_one(exp_id: int)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove_oneexp_id-int-bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        remove_one(exp_id: int) -&gt; bool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esquemas-de-validacion-pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Esquemas de Validación (Pydantic)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Esquemas de Validación (Pydantic)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experimentcreate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ExperimentCreate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mruschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MRUSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mruaschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MRUASchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#persistencia-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 Persistencia (Storage)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💾 Persistencia (Storage)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metodos-principales_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métodos principales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Métodos principales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_mru_experimentexperiment-experimentcreate-physics_data-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_mru_experiment(experiment: ExperimentCreate, physics_data: dict)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_mrua_experimentexperiment-experimentcreate-physics_data-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_mrua_experiment(experiment: ExperimentCreate, physics_data: dict)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_all-listexperimentresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_all() -&gt; List[ExperimentResponse]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_by_idexp_id-int-experimentresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_by_id(exp_id: int) -&gt; ExperimentResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleteexp_id-int-bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delete(exp_id: int) -&gt; bool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excepciones-personalizadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ Excepciones personalizadas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛡️ Excepciones personalizadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jerarquia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jerarquía
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-capturar-errordivisionporcerofisica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo: Capturar ErrorDivisionPorCeroFisica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Configuración
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Configuración">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#settings-variables-de-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Settings (Variables de entorno)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencias-e-inyeccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Dependencias e inyección
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Dependencias e inyección">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcion-get_physics_service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Función: get_physics_service()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Estructura de base de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Estructura de base de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments_mru" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments_mru
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments_mrua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments_mrua
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#librerias-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Librerías principales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proximas-caracteristicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Próximas características
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#frontend-streamlit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎨 Frontend (Streamlit)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎨 Frontend (Streamlit)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcionalidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funcionalidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-rest-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ API REST (FastAPI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚡ API REST (FastAPI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoints-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoints principales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentacion-interactiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentación interactiva
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logica-de-fisica-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔬 Lógica de Física (Services)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔬 Lógica de Física (Services)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metodos-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métodos principales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Métodos principales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resolver_y_guardar_mrunombre-str-datos-mruschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resolver_y_guardar_mru(nombre: str, datos: MRUSchema)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolver_y_guardar_mruanombre-str-datos-mruaschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resolver_y_guardar_mrua(nombre: str, datos: MRUASchema)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list_all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list_all()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_oneexp_id-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_one(exp_id: int)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove_oneexp_id-int-bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        remove_one(exp_id: int) -&gt; bool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esquemas-de-validacion-pydantic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Esquemas de Validación (Pydantic)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Esquemas de Validación (Pydantic)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experimentcreate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ExperimentCreate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mruschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MRUSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mruaschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MRUASchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#persistencia-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 Persistencia (Storage)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💾 Persistencia (Storage)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metodos-principales_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métodos principales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Métodos principales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_mru_experimentexperiment-experimentcreate-physics_data-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_mru_experiment(experiment: ExperimentCreate, physics_data: dict)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_mrua_experimentexperiment-experimentcreate-physics_data-dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_mrua_experiment(experiment: ExperimentCreate, physics_data: dict)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_all-listexperimentresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_all() -&gt; List[ExperimentResponse]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_by_idexp_id-int-experimentresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_by_id(exp_id: int) -&gt; ExperimentResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleteexp_id-int-bool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delete(exp_id: int) -&gt; bool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excepciones-personalizadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ Excepciones personalizadas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🛡️ Excepciones personalizadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jerarquia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jerarquía
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-capturar-errordivisionporcerofisica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo: Capturar ErrorDivisionPorCeroFisica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Configuración
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Configuración">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#settings-variables-de-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Settings (Variables de entorno)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencias-e-inyeccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Dependencias e inyección
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Dependencias e inyección">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcion-get_physics_service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Función: get_physics_service()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Estructura de base de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Estructura de base de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments_mru" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments_mru
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabla-experiments_mrua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla: experiments_mrua
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#librerias-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Librerías principales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proximas-caracteristicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Próximas características
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="referencia-tecnica">Referencia técnica</h1>
+<p>Esta sección documenta los módulos principales, esquemas y servicios de PhysiLab. Consulta las firmas, clases, métodos y contratos internos del proyecto.</p>
+<hr />
+<h2 id="frontend-streamlit">🎨 Frontend (Streamlit)</h2>
+<p>Módulo principal de presentación web.</p>
+<p><strong>Ubicación</strong>: <code>src/app/main.py</code></p>
+<h3 id="funcionalidades">Funcionalidades</h3>
+<ul>
+<li>Página de inicio con métricas del proyecto.</li>
+<li>Formularios para registro de MRU y MRUA.</li>
+<li>Listado y búsqueda de experimentos.</li>
+<li>Visualizaciones gráficas de resultados.</li>
+</ul>
+<hr />
+<h2 id="api-rest-fastapi">⚡ API REST (FastAPI)</h2>
+<p>Exposición de endpoints CRUD para experimentos.</p>
+<p><strong>Ubicación</strong>: <code>src/api/main.py</code></p>
+<h3 id="endpoints-principales">Endpoints principales</h3>
+<div class="highlight"><pre><span></span><code>POST   /experiments/calculate/mru      → Crear y guardar MRU
+POST   /experiments/calculate/mrua     → Crear y guardar MRUA
+GET    /experiments                    → Listar todos
+GET    /experiments/{id}               → Obtener detalles
+DELETE /experiments/{id}               → Eliminar
+</code></pre></div>
+<h3 id="documentacion-interactiva">Documentación interactiva</h3>
+<ul>
+<li><strong>Swagger UI</strong>: <a href="http://localhost:8000/docs">http://localhost:8000/docs</a></li>
+<li><strong>ReDoc</strong>: <a href="http://localhost:8000/redoc">http://localhost:8000/redoc</a></li>
+</ul>
+<hr />
+<h2 id="logica-de-fisica-services">🔬 Lógica de Física (Services)</h2>
+<p><strong>Clase</strong>: <code>PhysicsService</code><br />
+<strong>Ubicación</strong>: <code>src/services/physics_service.py</code></p>
+<h3 id="metodos-principales">Métodos principales</h3>
+<h4 id="resolver_y_guardar_mrunombre-str-datos-mruschema"><code>resolver_y_guardar_mru(nombre: str, datos: MRUSchema)</code></h4>
+<p>Resuelve MRU y persiste resultado.
+- Requiere exactamente 2 de 3 variables: velocidad, tiempo, distancia
+- Calcula la variable faltante
+- Retorna <code>ExperimentResponse</code> con resultado</p>
+<h4 id="resolver_y_guardar_mruanombre-str-datos-mruaschema"><code>resolver_y_guardar_mrua(nombre: str, datos: MRUASchema)</code></h4>
+<p>Resuelve MRUA usando ecuaciones cinemáticas.
+- Requiere velocidad inicial y posición inicial
+- Calcula aceleración, tiempo, posición final y velocidad final según sea necesario
+- Retorna <code>ExperimentResponse</code> con resultado</p>
+<h4 id="list_all"><code>list_all()</code></h4>
+<p>Retorna lista de todos los experimentos.</p>
+<h4 id="get_oneexp_id-int"><code>get_one(exp_id: int)</code></h4>
+<p>Retorna un experimento específico con todos sus datos.</p>
+<h4 id="remove_oneexp_id-int-bool"><code>remove_one(exp_id: int) -&gt; bool</code></h4>
+<p>Elimina un experimento y retorna confirmación.</p>
+<hr />
+<h2 id="esquemas-de-validacion-pydantic">📋 Esquemas de Validación (Pydantic)</h2>
+<p><strong>Ubicación</strong>: <code>src/schemas/</code></p>
+<h3 id="experimentcreate">ExperimentCreate</h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExperimentCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">nombre</span><span class="p">:</span> <span class="nb">str</span>          <span class="c1"># Min 3, Max 100 caracteres</span>
+    <span class="n">tipo</span><span class="p">:</span> <span class="nb">str</span>            <span class="c1"># &#39;MRU&#39; o &#39;MRUA&#39;</span>
+</code></pre></div>
+<h3 id="mruschema">MRUSchema</h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MRUSchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">velocidad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>      <span class="c1"># m/s</span>
+    <span class="n">tiempo</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>         <span class="c1"># s</span>
+    <span class="n">distancia</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>      <span class="c1"># m</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Regla MRU</p>
+<p>Proporciona exactamente 2 de 3 variables.</p>
+</div>
+<h3 id="mruaschema">MRUASchema</h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MRUASchema</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">aceleracion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>             <span class="c1"># m/s²</span>
+    <span class="n">velocidad_inicial</span><span class="p">:</span> <span class="nb">float</span>              <span class="c1"># m/s (obligatorio)</span>
+    <span class="n">velocidad_final</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>         <span class="c1"># m/s</span>
+    <span class="n">posicion_inicial</span><span class="p">:</span> <span class="nb">float</span>               <span class="c1"># m (obligatorio)</span>
+    <span class="n">posicion_final</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>          <span class="c1"># m</span>
+    <span class="n">tiempo</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>                  <span class="c1"># s</span>
+</code></pre></div>
+<hr />
+<h2 id="persistencia-storage">💾 Persistencia (Storage)</h2>
+<p><strong>Clase</strong>: <code>ExperimentRepository</code><br />
+<strong>Ubicación</strong>: <code>src/storage/experiment_repository.py</code><br />
+<strong>Backend</strong>: Supabase PostgreSQL</p>
+<h3 id="metodos-principales_1">Métodos principales</h3>
+<h4 id="create_mru_experimentexperiment-experimentcreate-physics_data-dict"><code>create_mru_experiment(experiment: ExperimentCreate, physics_data: dict)</code></h4>
+<p>Inserta MRU en tablas <code>experiments</code> y <code>experiments_mru</code>.</p>
+<h4 id="create_mrua_experimentexperiment-experimentcreate-physics_data-dict"><code>create_mrua_experiment(experiment: ExperimentCreate, physics_data: dict)</code></h4>
+<p>Inserta MRUA en tablas <code>experiments</code> y <code>experiments_mrua</code>.</p>
+<h4 id="get_all-listexperimentresponse"><code>get_all() -&gt; List[ExperimentResponse]</code></h4>
+<p>Consulta todos los experimentos con JOIN a tablas especializadas.</p>
+<h4 id="get_by_idexp_id-int-experimentresponse"><code>get_by_id(exp_id: int) -&gt; ExperimentResponse</code></h4>
+<p>Obtiene un experimento con todos sus datos físicos.</p>
+<h4 id="deleteexp_id-int-bool"><code>delete(exp_id: int) -&gt; bool</code></h4>
+<p>Elimina experimento (con cascada automática).</p>
+<hr />
+<h2 id="excepciones-personalizadas">🛡️ Excepciones personalizadas</h2>
+<p><strong>Ubicación</strong>: <code>src/core/exceptions.py</code></p>
+<h3 id="jerarquia">Jerarquía</h3>
+<div class="highlight"><pre><span></span><code>AppError (base)
+├── NotFoundError        → HTTP 404
+├── DuplicateError       → HTTP 409
+├── ValidationError      → HTTP 422
+├── StorageError         → HTTP 502
+└── [Excepciones físicas]
+    ├── ErrorDivisionPorCeroFisica
+    └── ErrorDiscriminanteNegativo
+</code></pre></div>
+<h3 id="ejemplo-capturar-errordivisionporcerofisica">Ejemplo: Capturar ErrorDivisionPorCeroFisica</h3>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">service</span><span class="o">.</span><span class="n">resolver_y_guardar_mru</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">datos</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ErrorDivisionPorCeroFisica</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;División por cero en </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">magnitud</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="configuracion">⚙️ Configuración</h2>
+<p><strong>Ubicación</strong>: <code>src/core/config.py</code></p>
+<h3 id="settings-variables-de-entorno">Settings (Variables de entorno)</h3>
+<div class="highlight"><pre><span></span><code><span class="n">SUPABASE_URL</span><span class="p">:</span> <span class="nb">str</span>           <span class="c1"># URL del proyecto Supabase</span>
+<span class="n">SUPABASE_KEY</span><span class="p">:</span> <span class="nb">str</span>           <span class="c1"># API Key pública</span>
+<span class="n">API_BASE_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000&quot;</span>
+<span class="n">API_TITLE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;PhysiLab API - Laboratorio de Física&quot;</span>
+<span class="n">API_VERSION</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+<span class="n">DEBUG</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div>
+<hr />
+<h2 id="dependencias-e-inyeccion">📊 Dependencias e inyección</h2>
+<p><strong>Ubicación</strong>: <code>src/api/dependencies.py</code></p>
+<h3 id="funcion-get_physics_service">Función: <code>get_physics_service()</code></h3>
+<p>Inyecta una instancia de <code>PhysicsService</code> en los endpoints.</p>
+<p><strong>Ejemplo en un endpoint:</strong>
+<div class="highlight"><pre><span></span><code><span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/calculate/mru&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_mru</span><span class="p">(</span>
+    <span class="n">nombre</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">datos</span><span class="p">:</span> <span class="n">MRUSchema</span><span class="p">,</span>
+    <span class="n">service</span><span class="p">:</span> <span class="n">PhysicsService</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_physics_service</span><span class="p">)</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="n">resolver_y_guardar_mru</span><span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">datos</span><span class="p">)</span>
+</code></pre></div></p>
+<hr />
+<h2 id="estructura-de-base-de-datos">🔄 Estructura de base de datos</h2>
+<h3 id="tabla-experiments">Tabla: experiments</h3>
+<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="w"> </span><span class="p">(</span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">)</span>
+<span class="n">nombre</span><span class="w"> </span><span class="p">(</span><span class="nb">VARCHAR</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="n">tipo</span><span class="w"> </span><span class="p">(</span><span class="nb">VARCHAR</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="c1">-- &#39;MRU&#39; o &#39;MRUA&#39;</span>
+<span class="n">fecha_creacion</span><span class="w"> </span><span class="p">(</span><span class="k">TIMESTAMP</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="tabla-experiments_mru">Tabla: experiments_mru</h3>
+<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="w"> </span><span class="p">(</span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w"> </span><span class="n">FK</span><span class="w"> </span><span class="n">experiments</span><span class="p">)</span>
+<span class="n">velocidad</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+<span class="n">tiempo</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+<span class="n">distancia</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="tabla-experiments_mrua">Tabla: experiments_mrua</h3>
+<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="w"> </span><span class="p">(</span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w"> </span><span class="n">FK</span><span class="w"> </span><span class="n">experiments</span><span class="p">)</span>
+<span class="n">aceleracion</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+<span class="n">velocidad_inicial</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+<span class="n">velocidad_final</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+<span class="n">posicion_inicial</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+<span class="n">posicion_final</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+<span class="n">tiempo</span><span class="w"> </span><span class="p">(</span><span class="nb">FLOAT</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="librerias-principales">📚 Librerías principales</h2>
+<table>
+<thead>
+<tr>
+<th>Librería</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pydantic V2</strong></td>
+<td>Validación y serialización de esquemas</td>
+</tr>
+<tr>
+<td><strong>FastAPI</strong></td>
+<td>Framework web asincrónico</td>
+</tr>
+<tr>
+<td><strong>Streamlit</strong></td>
+<td>Frontend interactivo</td>
+</tr>
+<tr>
+<td><strong>Supabase</strong></td>
+<td>Cliente PostgreSQL</td>
+</tr>
+<tr>
+<td><strong>NumPy</strong></td>
+<td>Cálculos matemáticos</td>
+</tr>
+<tr>
+<td><strong>Plotly</strong></td>
+<td>Visualizaciones</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="proximas-caracteristicas">🚀 Próximas características</h2>
+<ul>
+<li>WebSockets para sincronización en tiempo real</li>
+<li>Historial de cambios (auditoría)</li>
+<li>Nuevos modelos físicos (fuerzas, energías)</li>
+<li>Autenticación de usuarios</li>
+<li>Exportación de reportes (PDF, Excel)</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.expand", "navigation.sections", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
